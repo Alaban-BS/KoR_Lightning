@@ -1,6 +1,6 @@
 /// <reference types="node" />
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import type { UserConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // https://vitejs.dev/config/
-export default defineConfig({
+const config: UserConfig = {
   plugins: [
     react({
       jsxRuntime: 'automatic',
@@ -72,5 +72,7 @@ export default defineConfig({
     },
     dedupe: ['react', 'react-dom', 'react-is', '@emotion/react', '@emotion/styled']
   }
-});
+};
+
+export default config;
   
