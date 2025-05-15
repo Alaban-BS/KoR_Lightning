@@ -22,7 +22,8 @@
       "@/*": ["./src/*"]
     },
     "baseUrl": ".",
-    "types": ["node", "react", "react-dom", "jest"]
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "types": ["node"]
   },
   "include": [
     "next-env.d.ts",

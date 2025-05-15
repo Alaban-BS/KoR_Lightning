@@ -39,6 +39,12 @@ const nextConfig = {
       crypto: false,
     };
 
+    // Add type resolution
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': require('path').resolve(__dirname, 'src'),
+    };
+
     return config;
   },
   // Enable static optimization
