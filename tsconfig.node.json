@@ -6,9 +6,9 @@
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true
+    "target": "ESNext",
+    "lib": ["ESNext"],
+    "types": ["node", "vite/client"]
   },
   "include": ["vite.config.ts"]
 } 
