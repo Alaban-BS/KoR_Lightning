@@ -1,0 +1,22 @@
+{
+  "orderManagement": {
+    "newOrder": "Nouvelle Commande",
+    "savedOrders": "Commandes Sauvegardées",
+    "noSavedOrders": "Aucune Commande Sauvegardée",
+    "createNewOrder": "Créer une Nouvelle Commande",
+    "orderName": "Nom de la Commande",
+    "duplicateOrder": "Dupliquer la Commande Actuelle",
+    "cancel": "Annuler",
+    "create": "Créer",
+    "editName": "Modifier le Nom",
+    "delete": "Supprimer",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cette commande ?",
+    "empty": "Aucune commande sauvegardée",
+    "items": "articles",
+    "nameRequired": "Le nom de la commande est requis",
+    "nameDuplicate": "Le nom de la commande existe déjà",
+    "addingProducts": "Ajout de Produits...",
+    "addProductsToCreate": "Ajoutez des produits pour créer une nouvelle commande",
+    "emptyOrderMessage": "Commencez à ajouter des produits pour créer votre commande. Votre commande sera automatiquement créée dès que vous ajouterez le premier produit."
+  }
+} 

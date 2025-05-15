@@ -1,0 +1,77 @@
+{
+  "page": {
+    "title": "King of Reach - Pedido Rápido"
+  },
+
+  "logout": {
+    "button": "Cerrar Sesión"
+  },
+
+  "language": {
+    "select": "Seleccionar Idioma",
+    "en": "Inglés",
+    "de": "Alemán",
+    "es": "Español",
+    "nl": "Holandés"
+  },
+
+  "error": {
+    "priceList": "Error al cargar la lista de precios:"
+  },
+
+  "priceList": {
+    "title": "Lista de Precios",
+    "searchPlaceholder": "Buscar producto…",
+    "quantityPlaceholder": "Cantidad",
+    "header": {
+      "artNr": "Art. Nº",
+      "name": "Nombre",
+      "stock": "Stock",
+      "origin": "Origen",
+      "category": "Categoría",
+      "order": "Pedir",
+      "packaging": "Embalaje",
+      "pricePackaging": "Precio / Embalaje",
+      "pallet": "# / Palet",
+      "volume": "Volumen",
+      "leadTime": "Tiempo de Entrega",
+      "days": "Días",
+      "weight": "Peso"
+    },
+    "volumeUnit": "m³",
+    "weightUnit": "kg",
+    "discountTooltip": "Reducimos los costos logísticos cuando pides cantidades exactas de palets—y tú te beneficias de este ahorro."
+  },
+
+  "order": {
+    "title": "Pedido",
+    "total": "Total:",
+    "m3": "m³",
+    "kg": "kg",
+    "empty": "El pedido aún no contiene artículos.",
+    "palletSavings": "Ahorro en Palets:",
+    "submit": "Realizar Pedido",
+    "basePrice": "Precio Base",
+    "discountPrice": "Precio Cliente",
+    "palletPrice": "Precio Palet"
+  },
+
+  "orderManagement": {
+    "newOrder": "Nuevo Pedido",
+    "savedOrders": "Pedidos Guardados",
+    "empty": "No se encontraron pedidos guardados.",
+    "load": "Cargar",
+    "delete": "Eliminar",
+    "confirmDelete": "¿Está seguro de que desea eliminar este pedido?",
+    "createNewOrder": "Crear Nuevo Pedido",
+    "orderName": "Nombre del Pedido:",
+    "cancel": "Cancelar",
+    "create": "Crear",
+    "items": "artículos",
+    "editName": "Editar nombre",
+    "save": "Guardar",
+    "nameRequired": "El nombre no puede estar vacío",
+    "nameDuplicate": "Este nombre ya existe",
+    "duplicateOrder": "Duplicar pedido actual"
+  }
+}

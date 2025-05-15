@@ -1,0 +1,22 @@
+{
+  "orderManagement": {
+    "newOrder": "Neue Bestellung",
+    "savedOrders": "Gespeicherte Bestellungen",
+    "noSavedOrders": "Keine gespeicherten Bestellungen",
+    "createNewOrder": "Neue Bestellung erstellen",
+    "orderName": "Bestellname",
+    "duplicateOrder": "Aktuelle Bestellung duplizieren",
+    "cancel": "Abbrechen",
+    "create": "Erstellen",
+    "editName": "Namen bearbeiten",
+    "delete": "Löschen",
+    "confirmDelete": "Sind Sie sicher, dass Sie diese Bestellung löschen möchten?",
+    "empty": "Keine gespeicherten Bestellungen",
+    "items": "Artikel",
+    "nameRequired": "Bestellname ist erforderlich",
+    "nameDuplicate": "Bestellname existiert bereits",
+    "addingProducts": "Produkte hinzufügen...",
+    "addProductsToCreate": "Fügen Sie Produkte hinzu, um eine neue Bestellung zu erstellen",
+    "emptyOrderMessage": "Beginnen Sie mit dem Hinzufügen von Produkten, um Ihre Bestellung zu erstellen. Ihre Bestellung wird automatisch erstellt, sobald Sie das erste Produkt hinzufügen."
+  }
+} 

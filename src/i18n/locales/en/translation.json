@@ -1,0 +1,22 @@
+{
+  "orderManagement": {
+    "newOrder": "New Order",
+    "savedOrders": "Saved Orders",
+    "noSavedOrders": "No Saved Orders",
+    "createNewOrder": "Create New Order",
+    "orderName": "Order Name",
+    "duplicateOrder": "Duplicate Current Order",
+    "cancel": "Cancel",
+    "create": "Create",
+    "editName": "Edit Name",
+    "delete": "Delete",
+    "confirmDelete": "Are you sure you want to delete this order?",
+    "empty": "No saved orders",
+    "items": "items",
+    "nameRequired": "Order name is required",
+    "nameDuplicate": "Order name already exists",
+    "addingProducts": "Adding Products...",
+    "addProductsToCreate": "Add products to create a new order",
+    "emptyOrderMessage": "Start adding products to create your order. Your order will be automatically created once you add the first product."
+  }
+} 

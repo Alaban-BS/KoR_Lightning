@@ -1,0 +1,337 @@
+:root {
+  --primary-blue: #007bff;
+  --primary-blue-dark: #0056b3;
+  --primary-blue-darker: #004494;
+  --danger: #d9534f;
+  --danger-bg: #ffe9e8;
+  --muted-text: #555;
+  --muted-border: #ddd;
+  --cell-padding: 8px 12px;
+}
+
+/* Algemene tabelcontainer */
+.table-container {
+  width: 99%;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+  min-height: 600px;
+}
+
+/* Titel */
+.prijslijst-title {
+  text-align: left;
+  margin: 15px 10px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Zoekbalk */
+.search-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 15px;
+}
+
+.search-input {
+  width: 250px;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.search-input:focus {
+  border-color: var(--primary-blue);
+  outline: none;
+}
+
+/* Tabel opmaak */
+.table-header,
+.table-row {
+  display: grid;
+  grid-template-columns:
+    2fr /* Product */
+    1fr /* Prijs */
+    0.5fr /* Stock */
+    0.5fr /* Herkomst */
+    1fr /* Categorie */
+    1fr /* Bestel */
+    1fr /* Verpakking */
+    1fr /* Prijs per verpakking */
+    0.7fr /* Pallet */
+    0.7fr; /* Volume & Gewicht */
+  width: 100%;
+  align-items: center;
+  padding: 0;
+  border-bottom: 1px solid var(--muted-border);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Rijachtergrond */
+.table-row:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.table-row:hover {
+  background-color: #f3f3f3;
+  transition: background 0.2s ease-in-out;
+}
+
+.table-header .cell {
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 8px; /* match .table-row .cell */
+}
+
+.table-header .header-prijs,
+.table-header .header-prijs-verpakking,
+.table-header .header-palletaantal {
+  justify-content: flex-end;
+}
+
+.table-header .header-stock,
+.table-header .header-herkomst,
+.table-header .header-bestel {
+  justify-content: center;
+}
+
+.multiline-header {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.multiline-header.right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.table-row .cell {
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 8px;
+}
+/* Algemene celopmaak */
+.cell {
+  padding: var(--cell-padding);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cell.left {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.cell.right {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.cell.center {
+  justify-content: center;
+  text-align: center;
+}
+
+/* Productnaam */
+.product-name {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* SKU-styling */
+.sku-badge {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px; /* or 0 if you want it tighter */
+}
+
+/* Prijsinformatie */
+.price-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 14px;
+}
+
+.price-line {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: #888;
+  margin-right: 6px;
+}
+
+.new-price {
+  font-weight: bold;
+  color: var(--danger);
+  background-color: var(--danger-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.pallet-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.pallet-value {
+  font-weight: normal;
+}
+
+.pallet-label {
+}
+
+.discount-info {
+  background-color: #ffdd99;
+  color: #222;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  display: inline-block;
+  text-align: center;
+}
+
+/* Kleine teksten */
+.order-price,
+.order-unit,
+.price-unit,
+.volume,
+.weight,
+.colli-part,
+.packaging-block,
+.category,
+.subcategory {
+  font-size: 13px;
+  color: var(--muted-text);
+  margin: 2px 0;
+  font-weight: 500;
+}
+
+.order-unit {
+  text-align: right;
+  align-self: flex-end;
+}
+
+.price-unit {
+  text-align: right;
+  align-self: flex-end;
+}
+
+/* Bestelknoppen */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.quantity-button {
+  background-color: var(--primary-blue);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.quantity-button:hover {
+  background-color: var(--primary-blue-dark);
+}
+
+.quantity-button:active {
+  background-color: var(--primary-blue-darker);
+}
+
+.quantity-input {
+  width: 50px;
+  height: 28px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid var(--primary-blue);
+  border-radius: 4px;
+  padding: 0; /* ← This line removes internal spacing */
+  outline: none;
+  transition: border-color 0.3s;
+  margin-bottom: 0;
+}
+
+.quantity-input:focus {
+  border-color: var(--primary-blue-dark);
+}
+
+.pallet-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: auto;
+  margin: 0;
+  padding: 0;
+}
+
+/* Vlaggen */
+.flag-img {
+  width: 18px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Voorraadindicator */
+.stock-circle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.stock-circle.green {
+  background-color: #4caf50;
+}
+
+.stock-circle.orange {
+  background-color: #ff9800;
+}
+
+.stock-circle.red {
+  background-color: #f44336;
+}
+
+.stock-circle:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}

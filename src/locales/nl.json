@@ -1,0 +1,77 @@
+{
+  "page": {
+    "title": "King of Reach - Razendsnel bestellen"
+  },
+
+  "logout": {
+    "button": "Uitloggen"
+  },
+
+  "language": {
+    "select": "Selecteer taal",
+    "en": "Engels",
+    "de": "Duits",
+    "es": "Spaans",
+    "nl": "Nederlands"
+  },
+
+  "error": {
+    "priceList": "Fout bij het laden van de prijslijst:"
+  },
+
+  "priceList": {
+    "title": "Prijslijst",
+    "searchPlaceholder": "Zoek product…",
+    "quantityPlaceholder": "aantal",
+    "header": {
+      "artNr": "Art.nr.",
+      "name": "Naam",
+      "stock": "Voorraad",
+      "origin": "Herkomst",
+      "category": "Categorie",
+      "order": "Bestel",
+      "packaging": "Verpakking",
+      "pricePackaging": "Prijs / Verpakking",
+      "pallet": "# / Pallet",
+      "volume": "Volume",
+      "leadTime": "Levertijd",
+      "days": "dagen",
+      "weight": "Gewicht"
+    },
+    "volumeUnit": "m³",
+    "weightUnit": "kg",
+    "discountTooltip": "We verlagen de logistieke kosten wanneer je exact pallet­hoeveelheden bestelt—en jij profiteert van die besparing."
+  },
+
+  "order": {
+    "title": "Bestelling",
+    "total": "Totaal:",
+    "m3": "m³",
+    "kg": "kg",
+    "empty": "De bestelling bevat nog geen items.",
+    "palletSavings": "Palletvoordeel:",
+    "submit": "Bestelling plaatsen",
+    "basePrice": "Basisprijs",
+    "discountPrice": "Klantprijs",
+    "palletPrice": "Palletprijs"
+  },
+
+  "orderManagement": {
+    "newOrder": "Nieuwe bestelling",
+    "savedOrders": "Opgeslagen bestellingen",
+    "empty": "Geen opgeslagen bestellingen gevonden.",
+    "load": "Laden",
+    "delete": "Verwijderen",
+    "confirmDelete": "Weet je zeker dat je deze bestelling wilt verwijderen?",
+    "createNewOrder": "Nieuwe bestelling aanmaken",
+    "orderName": "Naam van de bestelling:",
+    "cancel": "Annuleren",
+    "create": "Aanmaken",
+    "items": "items",
+    "editName": "Naam bewerken",
+    "save": "Opslaan",
+    "nameRequired": "De naam mag niet leeg zijn",
+    "nameDuplicate": "Deze naam bestaat al",
+    "duplicateOrder": "Huidige bestelling dupliceren"
+  }
+}

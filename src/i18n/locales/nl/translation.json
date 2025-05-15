@@ -1,0 +1,22 @@
+{
+  "orderManagement": {
+    "newOrder": "Nieuwe Order",
+    "savedOrders": "Opgeslagen Orders",
+    "noSavedOrders": "Geen Opgeslagen Orders",
+    "createNewOrder": "Nieuwe Order Aanmaken",
+    "orderName": "Order Naam",
+    "duplicateOrder": "Huidige Order Dupliceren",
+    "cancel": "Annuleren",
+    "create": "Aanmaken",
+    "editName": "Naam Bewerken",
+    "delete": "Verwijderen",
+    "confirmDelete": "Weet u zeker dat u deze order wilt verwijderen?",
+    "empty": "Geen opgeslagen orders",
+    "items": "items",
+    "nameRequired": "Order naam is verplicht",
+    "nameDuplicate": "Order naam bestaat al",
+    "addingProducts": "Producten Toevoegen...",
+    "addProductsToCreate": "Voeg producten toe om een nieuwe bestelling te maken",
+    "emptyOrderMessage": "Begin met het toevoegen van producten om uw bestelling te maken. Uw bestelling wordt automatisch aangemaakt zodra u het eerste product toevoegt."
+  }
+} 

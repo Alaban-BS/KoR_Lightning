@@ -1,0 +1,22 @@
+{
+  "orderManagement": {
+    "newOrder": "Nuevo Pedido",
+    "savedOrders": "Pedidos Guardados",
+    "noSavedOrders": "Sin Pedidos Guardados",
+    "createNewOrder": "Crear Nuevo Pedido",
+    "orderName": "Nombre del Pedido",
+    "duplicateOrder": "Duplicar Pedido Actual",
+    "cancel": "Cancelar",
+    "create": "Crear",
+    "editName": "Editar Nombre",
+    "delete": "Eliminar",
+    "confirmDelete": "¿Está seguro de que desea eliminar este pedido?",
+    "empty": "No hay pedidos guardados",
+    "items": "artículos",
+    "nameRequired": "El nombre del pedido es obligatorio",
+    "nameDuplicate": "El nombre del pedido ya existe",
+    "addingProducts": "Añadiendo Productos...",
+    "addProductsToCreate": "Añada productos para crear un nuevo pedido",
+    "emptyOrderMessage": "Comience a añadir productos para crear su pedido. Su pedido se creará automáticamente cuando añada el primer producto."
+  }
+} 

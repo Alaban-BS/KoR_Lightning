@@ -1,0 +1,106 @@
+.saved-orders {
+  position: relative;
+  display: inline-block;
+}
+
+.saved-orders-toggle {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.saved-orders-toggle:hover {
+  background-color: #e0e0e0;
+}
+
+.saved-orders-panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 300px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 8px;
+  z-index: 1000;
+}
+
+.orders-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.order-item {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.order-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.order-name {
+  font-weight: 500;
+}
+
+.order-date {
+  font-size: 12px;
+  color: #666;
+}
+
+.order-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.load-order,
+.delete-order {
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s;
+}
+
+.load-order {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.load-order:hover {
+  background-color: #45a049;
+}
+
+.delete-order {
+  background-color: #f44336;
+  color: white;
+}
+
+.delete-order:hover {
+  background-color: #da190b;
+}
+
+.no-orders {
+  padding: 16px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+} 

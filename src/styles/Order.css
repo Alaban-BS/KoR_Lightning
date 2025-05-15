@@ -1,0 +1,383 @@
+/*─────────────────────────────────────────────────────────────
+  ORDER - MAIN WRAPPER
+─────────────────────────────────────────────────────────────*/
+.order {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: white;
+  border-left: 1px solid #dee2e6;
+  width: 99%;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+  min-height: 600px; /* prevents layout jumping */
+}
+
+/*─────────────────────────────────────────────────────────────
+  ORDER HEADER
+─────────────────────────────────────────────────────────────*/
+.order-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  margin: -16px -16px 16px -16px;
+  padding: 12px 16px;
+}
+
+.order-header-content {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 36px;
+}
+
+.order-management {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.order-management-buttons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.order-volume-weight-totals {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding-left: 16px;
+  border-left: 1px solid #dee2e6;
+  margin-left: auto;
+  justify-content: flex-end;
+}
+
+.order-volume-weight-totals p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #666;
+  white-space: nowrap;
+}
+
+.order-volume-weight-totals strong {
+  color: #495057;
+}
+
+/*─────────────────────────────────────────────────────────────
+  ORDER SUMMARY
+─────────────────────────────────────────────────────────────*/
+.order-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.order-summary-right {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  text-align: right;
+}
+
+.order-total-line {
+  font-size: 1rem;
+  font-weight: bold;
+}
+.order-total-amount {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+/*─────────────────────────────────────────────────────────────
+  “NO ORDER LINES” PLACEHOLDER
+─────────────────────────────────────────────────────────────*/
+.order-empty-message {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  padding: 16px 0;
+}
+
+/*─────────────────────────────────────────────────────────────
+  GRID OF ORDER LINES
+─────────────────────────────────────────────────────────────*/
+.order-lines {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  min-height: 400px; /* reserve space even when empty */
+  max-height: 400px; /* prevent unbounded growth       */
+}
+
+.order-line {
+  display: grid;
+  grid-template-columns: 1.5fr 0.5fr 1fr 1fr 1fr;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.order-line:last-child {
+  border-bottom: none;
+}
+
+.order-line-cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Product info */
+.product-info {
+  flex-direction: column;
+}
+.order-line-name {
+  font-weight: bold;
+}
+.order-line-sku {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+/* Right-aligned numeric columns */
+.order-line-qty,
+.order-line-price,
+.order-line-total,
+.order-line-volume-weight {
+  text-align: right;
+}
+
+/* Volume & weight stacked */
+.order-line-volume-weight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.order-line-volume-weight .volume {
+  margin: 0;
+}
+.order-line-volume-weight .weight {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+/*─────────────────────────────────────────────────────────────
+  PRICE STACK  (base / customer / pallet)
+─────────────────────────────────────────────────────────────*/
+.price-stack {
+  white-space: nowrap;
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+.price-value {
+  font-weight: 600;
+} /* base price         */
+.new-price {
+  font-weight: 600;
+  color: var(--primary, #d32f2f);
+}
+.pallet-advantage,
+.discount-info {
+  /* unified colour   */
+  background-color: #ffdd99; /* soft yellow       */
+  color: #000;
+  font-weight: 600;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.strike {
+  text-decoration: line-through;
+  opacity: 0.55;
+}
+.price-sep {
+  opacity: 0.45;
+} /* " / " separators  */
+
+.total-savings-line {
+  margin-top: 4px;
+  text-align: right;
+  font-size: 0.85rem;
+  font-weight: normal;
+  white-space: nowrap;
+}
+
+.savings-label {
+  font-weight: bold;
+  margin-right: 4px;
+}
+
+.savings-total {
+  font-weight: bold;
+}
+
+.savings-breakdown {
+  font-style: italic;
+  font-size: 0.85rem;
+}
+
+.savings-promo {
+  background-color: #ffd7d7; /* light red */
+  color: #000;
+  padding: 0 4px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.savings-pallet {
+  background-color: #ffdd99; /* light yellow */
+  color: #000;
+  padding: 0 4px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.savings-plus {
+  margin: 0 4px;
+  font-weight: bold;
+}
+
+/* Helper line under the price stack (savings) */
+.pallet-advantage {
+  display: inline-block;
+  margin-left: 8px; /* small gap from total  */
+  font-style: italic;
+  font-size: 0.85rem;
+}
+
+.pallet-savings-right {
+  text-align: right;
+  margin-top: 4px;
+}
+
+.highlighted-savings {
+  background-color: #ffdd99; /* same as .discount-info */
+  padding: 0 4px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.highlight-line {
+  animation: highlight-fade 0.6s ease-out;
+}
+
+@keyframes highlight-fade {
+  0% {
+    background-color: rgba(255, 255, 0, 0.3);
+    transform: scale(1.005);
+  }
+  50% {
+    background-color: rgba(255, 255, 0, 0.15);
+  }
+  100% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+}
+
+.fade-out-line {
+  animation: fade-out 0.3s ease-out forwards;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+}
+
+.focus-line {
+  outline: 2px solid #bbb;
+  border-radius: 6px;
+}
+
+/*─────────────────────────────────────────────────────────────
+  DISCOUNT BADGES (generic)
+─────────────────────────────────────────────────────────────*/
+.discount-yellow {
+  /* keep for potential re-use */
+  background-color: #fff9d3;
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-weight: bold;
+}
+
+.discount-blue {
+  background-color: #d3e5ff;
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-weight: bold;
+}
+
+/*─────────────────────────────────────────────────────────────
+  SUBMIT ORDER BUTTON
+─────────────────────────────────────────────────────────────*/
+.submit-order-button {
+  width: 100%;
+  background-color: #5cb85c;
+  color: #fff;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.submit-order-button:hover {
+  background-color: #4cae4c;
+}
+
+.submit-order-button .order-total {
+  font-size: 1rem;
+  font-weight: bold;
+}
+.submit-order-button .order-total-amount {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+/*─────────────────────────────────────────────────────────────
+  DELETE ICON (trash-can)
+─────────────────────────────────────────────────────────────*/
+.remove-line-icon {
+  color: red;
+  cursor: pointer;
+  margin-left: 8px;
+  visibility: hidden;
+}
+
+.order-line:hover .remove-line-icon {
+  visibility: visible;
+}
+
+.order-line-wrapper {
+  transition: all 0.3s ease;
+}
+
+.focus-line {
+  outline: 2px solid #bbb;
+  border-radius: 6px;
+}

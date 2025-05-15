@@ -1,0 +1,77 @@
+{
+  "page": {
+    "title": "King of Reach - Blitzschnelle Bestellung"
+  },
+
+  "logout": {
+    "button": "Abmelden"
+  },
+
+  "language": {
+    "select": "Sprache auswählen",
+    "en": "Englisch",
+    "de": "Deutsch",
+    "es": "Spanisch",
+    "nl": "Niederländisch"
+  },
+
+  "error": {
+    "priceList": "Fehler beim Laden der Preisliste:"
+  },
+
+  "priceList": {
+    "title": "Preisliste",
+    "searchPlaceholder": "Produkt suchen…",
+    "quantityPlaceholder": "Menge",
+    "header": {
+      "artNr": "Art.-Nr.",
+      "name": "Name",
+      "stock": "Bestand",
+      "origin": "Herkunft",
+      "category": "Kategorie",
+      "order": "Bestellen",
+      "packaging": "Verpackung",
+      "pricePackaging": "Preis / Verpackung",
+      "pallet": "# / Palette",
+      "volume": "Volumen",
+      "leadTime": "Lieferzeit",
+      "days": "Tage",
+      "weight": "Gewicht"
+    },
+    "volumeUnit": "m³",
+    "weightUnit": "kg",
+    "discountTooltip": "Wir reduzieren die Logistikkosten, wenn Sie exakte Palettenmengen bestellen—und Sie profitieren von dieser Ersparnis."
+  },
+
+  "order": {
+    "title": "Bestellung",
+    "total": "Gesamtbetrag:",
+    "m3": "m³",
+    "kg": "kg",
+    "empty": "Die Bestellung enthält noch keine Artikel.",
+    "palletSavings": "Palettenvorteil:",
+    "submit": "Bestellung aufgeben",
+    "basePrice": "Basispreis",
+    "discountPrice": "Kundenpreis",
+    "palletPrice": "Palettenpreis"
+  },
+
+  "orderManagement": {
+    "newOrder": "Neue Bestellung",
+    "savedOrders": "Gespeicherte Bestellungen",
+    "empty": "Keine gespeicherten Bestellungen gefunden.",
+    "load": "Laden",
+    "delete": "Löschen",
+    "confirmDelete": "Sind Sie sicher, dass Sie diese Bestellung löschen möchten?",
+    "createNewOrder": "Neue Bestellung erstellen",
+    "orderName": "Name der Bestellung:",
+    "cancel": "Abbrechen",
+    "create": "Erstellen",
+    "items": "Artikel",
+    "editName": "Namen bearbeiten",
+    "save": "Speichern",
+    "nameRequired": "Der Name darf nicht leer sein",
+    "nameDuplicate": "Dieser Name existiert bereits",
+    "duplicateOrder": "Aktuelle Bestellung duplizieren"
+  }
+}

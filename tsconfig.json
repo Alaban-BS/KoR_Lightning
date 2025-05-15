@@ -1,0 +1,14 @@
+{
+    "include": ["./src/**/*"],
+    "compilerOptions": {
+      "strict": true,
+      "esModuleInterop": true,
+      "resolveJsonModule": true,               // ✅ allows importing .json files
+      "allowSyntheticDefaultImports": true,    // ✅ required by many React setups
+      "lib": ["dom", "es2015"],
+      "jsx": "react-jsx",
+      "module": "esnext",                      // ✅ allows modern module resolution
+      "moduleResolution": "node",              // ✅ ensures .json resolution works properly
+      "target": "es6"                          // ✅ modern JavaScript output
+    }
+  }

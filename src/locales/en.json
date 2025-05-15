@@ -1,0 +1,77 @@
+{
+  "page": {
+    "title": "King of Reach - Lightning-fast ordering"
+  },
+
+  "logout": {
+    "button": "Logout"
+  },
+
+  "language": {
+    "select": "Select language",
+    "en": "English",
+    "de": "German",
+    "es": "Spanish",
+    "nl": "Dutch"
+  },
+
+  "error": {
+    "priceList": "Error loading the price list:"
+  },
+
+  "priceList": {
+    "title": "Price List",
+    "searchPlaceholder": "Search product…",
+    "quantityPlaceholder": "quantity",
+    "header": {
+      "artNr": "Art.-No.",
+      "name": "Name",
+      "stock": "Stock",
+      "origin": "Origin",
+      "category": "Category",
+      "order": "Order",
+      "packaging": "Packaging",
+      "pricePackaging": "Price / Packaging",
+      "pallet": "# / Pallet",
+      "volume": "Volume",
+      "leadTime": "Lead time",
+      "days": "days",
+      "weight": "Weight"
+    },
+    "volumeUnit": "m³",
+    "weightUnit": "kg",
+    "discountTooltip": "We reduce logistics costs when you order exact pallet quantities—and you benefit from that saving."
+  },
+
+  "order": {
+    "title": "Order",
+    "total": "Order total:",
+    "m3": "m³",
+    "kg": "kg",
+    "empty": "The order does not contain any items yet.",
+    "palletSavings": "Pallet savings:",
+    "submit": "Place order",
+    "basePrice": "Base price",
+    "discountPrice": "Customer price",
+    "palletPrice": "Pallet price"
+  },
+
+  "orderManagement": {
+    "newOrder": "New Order",
+    "savedOrders": "Saved Orders",
+    "empty": "No saved orders found.",
+    "load": "Load",
+    "delete": "Delete",
+    "confirmDelete": "Are you sure you want to delete this order?",
+    "createNewOrder": "Create New Order",
+    "orderName": "Order name:",
+    "cancel": "Cancel",
+    "create": "Create",
+    "items": "items",
+    "editName": "Edit name",
+    "save": "Save",
+    "nameRequired": "Name cannot be empty",
+    "nameDuplicate": "This name already exists",
+    "duplicateOrder": "Duplicate current order"
+  }
+}
