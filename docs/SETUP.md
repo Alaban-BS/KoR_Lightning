@@ -1,12 +1,9 @@
 # Setup Guide
 
-This guide will help you set up the project on your local machine.
-
 ## Prerequisites
 
-- Node.js (v16 or higher)
-- npm (v7 or higher)
-- Git
+- Node.js 18.0.0 or later
+- npm 9.0.0 or later
 
 ## Installation
 
@@ -21,83 +18,50 @@ This guide will help you set up the project on your local machine.
    npm install
    ```
 
+3. Create a `.env.local` file in the root directory and add the following environment variables:
+   ```env
+   NEXT_PUBLIC_API_URL=your_api_url
+   NEXT_PUBLIC_APP_TITLE=Your App Title
+   ```
+
 ## Development
 
 1. Start the development server:
    ```bash
    npm run dev
    ```
-   This will start the Vite development server at `http://localhost:5173`
+   This will start the Next.js development server at `http://localhost:3000`
 
-2. For production build:
-   ```bash
-   npm run build
-   ```
+## Environment Variables
 
-3. To preview the production build:
-   ```bash
-   npm run preview
-   ```
+The following environment variables are used in the project:
 
-## Environment Setup
+- `NEXT_PUBLIC_API_URL`: API endpoint URL
+- `NEXT_PUBLIC_APP_TITLE`: Application title
 
-1. Create a `.env` file in the root directory:
-   ```env
-   VITE_API_URL=your_api_url
-   ```
+## Available Scripts
 
-2. Available environment variables:
-   - `VITE_API_URL`: API endpoint URL
-   - `VITE_I18N_DEBUG`: Enable i18n debugging (true/false)
+- `npm run dev`: Start development server
+- `npm run build`: Build for production
+- `npm start`: Start production server
+- `npm run lint`: Run ESLint
+- `npm run type-check`: Run TypeScript type checking
 
-## TypeScript Configuration
+## Project Structure
 
-The project uses TypeScript with the following configuration:
-
-- Strict mode enabled
-- React 18 JSX transform
-- Path aliases configured
-- Module resolution: Node
-
-## IDE Setup
-
-### VS Code
-
-Recommended extensions:
-- ESLint
-- Prettier
-- TypeScript and JavaScript Language Features
-- vscode-styled-components
-
-### WebStorm
-
-The project is configured to work with WebStorm out of the box.
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Module not found errors**
-   - Clear node_modules and reinstall:
-     ```bash
-     rm -rf node_modules
-     npm install
-     ```
-
-2. **TypeScript errors**
-   - Clear TypeScript cache:
-     ```bash
-     rm -rf node_modules/.cache/typescript
-     ```
-
-3. **Build errors**
-   - Ensure all dependencies are installed
-   - Check for TypeScript errors
-   - Verify environment variables
+```
+├── src/
+│   ├── app/              # Next.js app directory
+│   ├── components/       # React components
+│   ├── lib/             # Utility functions and configurations
+│   ├── types/           # TypeScript type definitions
+│   └── styles/          # Global styles
+├── public/              # Static files
+└── docs/               # Documentation
+```
 
 ## Additional Resources
 
-- [Vite Documentation](https://vitejs.dev/guide/)
-- [React Documentation](https://reactjs.org/docs/getting-started.html)
+- [Next.js Documentation](https://nextjs.org/docs)
 - [TypeScript Documentation](https://www.typescriptlang.org/docs/)
 - [Material-UI Documentation](https://mui.com/getting-started/usage/) 

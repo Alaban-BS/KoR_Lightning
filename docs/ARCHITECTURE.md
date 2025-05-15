@@ -5,26 +5,35 @@ This document provides an overview of the project's architecture, design pattern
 ## Project Structure
 
 ```
-src/
-├── components/     # React components
-│   ├── common/    # Reusable components
-│   └── features/  # Feature-specific components
-├── styles/        # CSS and styling files
-├── i18n/          # Internationalization setup
-├── locales/       # Translation files
-├── services/      # API and service functions
-└── types.ts       # TypeScript type definitions
+├── src/
+│   ├── app/                    # Next.js app directory
+│   │   ├── api/               # API routes
+│   │   ├── (auth)/           # Authentication routes
+│   │   └── (dashboard)/      # Dashboard routes
+│   ├── components/            # React components
+│   │   ├── common/           # Shared components
+│   │   ├── features/         # Feature-specific components
+│   │   └── providers/        # Context providers
+│   ├── lib/                  # Utility functions
+│   │   ├── api/             # API client
+│   │   ├── auth/            # Authentication utilities
+│   │   └── theme/           # Theme configuration
+│   ├── types/               # TypeScript definitions
+│   └── styles/              # Global styles
+├── public/                  # Static files
+│   └── locales/            # Translation files
+└── docs/                   # Documentation
 ```
 
 ## Technology Stack
 
-- **Frontend Framework**: React 18
+- **Framework**: Next.js 14
 - **Language**: TypeScript
-- **Build Tool**: Vite
 - **UI Library**: Material-UI
-- **Routing**: React Router DOM
+- **State Management**: React Context + Hooks
 - **Internationalization**: i18next
-- **State Management**: React Hooks
+- **Styling**: Emotion (via Material-UI)
+- **Testing**: Jest + React Testing Library
 
 ## Design Patterns
 
@@ -64,25 +73,88 @@ src/
 
 ## Key Features
 
-### Internationalization
+1. **Server-Side Rendering (SSR)**
+   - Next.js App Router
+   - Server Components
+   - API Routes
 
-- Multi-language support using i18next
-- Language detection
-- Dynamic language switching
-- Translation management
+2. **Authentication**
+   - JWT-based authentication
+   - Protected routes
+   - Role-based access control
 
-### Routing
+3. **Internationalization**
+   - Multi-language support
+   - Dynamic language switching
+   - Translation management
 
-- Client-side routing with React Router
-- Protected routes
-- Route-based code splitting
+4. **Theming**
+   - Light/Dark mode
+   - Custom theme configuration
+   - Responsive design
 
-### API Integration
+5. **Performance**
+   - Automatic code splitting
+   - Image optimization
+   - Static site generation
+   - Edge caching
 
-- Service-based architecture
-- Axios for HTTP requests
-- Error handling middleware
-- Request/response interceptors
+## Development Guidelines
+
+1. **Code Organization**
+   - Feature-based directory structure
+   - Shared components in common directory
+   - Type definitions in types directory
+
+2. **State Management**
+   - Use React Context for global state
+   - Local state with useState/useReducer
+   - Custom hooks for reusable logic
+
+3. **TypeScript**
+   - Strict type checking
+   - Interface-first development
+   - Type-safe API calls
+
+4. **Testing**
+   - Unit tests for utilities
+   - Component testing
+   - Integration tests for features
+
+5. **Performance**
+   - Code splitting
+   - Lazy loading
+   - Image optimization
+   - Bundle analysis
+
+## Deployment
+
+1. **Build Process**
+   - Production build with `next build`
+   - Static optimization
+   - Environment configuration
+
+2. **Hosting**
+   - Vercel (recommended)
+   - Docker support
+   - Static export option
+
+## Security
+
+1. **Authentication**
+   - JWT token management
+   - Secure cookie handling
+   - CSRF protection
+
+2. **API Security**
+   - Rate limiting
+   - Input validation
+   - Error handling
+
+3. **Content Security**
+   - CSP headers
+   - XSS protection
+   - CORS configuration
 
 ## Performance Considerations
 
@@ -99,18 +171,6 @@ src/
    - Browser caching
    - Service worker for offline support
 
-## Security
-
-1. **Authentication**
-   - JWT-based authentication
-   - Secure token storage
-   - Protected routes
-
-2. **Data Protection**
-   - Input sanitization
-   - XSS prevention
-   - CSRF protection
-
 ## Testing Strategy
 
 1. **Unit Tests**
@@ -125,18 +185,6 @@ src/
 3. **E2E Tests**
    - User flow testing
    - Cross-browser testing
-
-## Deployment
-
-1. **Build Process**
-   - Production build optimization
-   - Asset compression
-   - Source map generation
-
-2. **CI/CD**
-   - Automated testing
-   - Build verification
-   - Deployment pipeline
 
 ## Future Considerations
 

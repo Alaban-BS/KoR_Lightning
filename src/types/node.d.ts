@@ -3,8 +3,8 @@
 declare namespace NodeJS {
   interface ProcessEnv {
     NODE_ENV: 'development' | 'production' | 'test';
-    VITE_APP_TITLE: string;
-    [key: string]: string | undefined;
+    NEXT_PUBLIC_API_URL: string;
+    NEXT_PUBLIC_APP_TITLE: string;
   }
 }
 
