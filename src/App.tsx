@@ -1,0 +1,186 @@
+import React, { useEffect, useState } from 'react';
+import { Box, Button } from '@mui/material';
+import { Header } from './components/Header';
+import PriceList from './components/PriceList';
+import Order from './components/Order';
+import OrderManagement from './components/OrderManagement';
+import { Product, OrderLine } from './types';
+import { useTranslation } from 'react-i18next';
+import { orderService } from './services/orderService';
+
+/**
+ * KOR Order Management Layout
+ * A specialized layout for the King of Reach order management system
+ * featuring a four-section vertical split:
+ * - Header (5%)
+ * - Price List (50% of main content)
+ * - Order List (40% of main content)
+ * - Order Button (5%)
+ */
+const App: React.FC = () => {
+  const { t } = useTranslation();
+  const [productData, setProductData] = useState<Product[]>([]);
+  const [orderLines, setOrderLines] = useState<OrderLine[]>([]);
+  const [currentOrderId, setCurrentOrderId] = useState<string | null>(null);
+
+  // Load saved order on initial load
+  useEffect(() => {
+    const savedOrders = orderService.getAllOrders();
+    if (savedOrders.length > 0) {
+      const latestOrder = savedOrders[savedOrders.length - 1];
+      setOrderLines(latestOrder.orderLines);
+      setCurrentOrderId(latestOrder.id);
+    }
+  }, []);
+
+  // Auto-save order when it changes
+  useEffect(() => {
+    if (currentOrderId) {
+      try {
+        orderService.updateOrder(currentOrderId, orderLines);
+      } catch (error) {
+        console.error('Error updating order:', error);
+      }
+    }
+  }, [orderLines, currentOrderId]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const productRes = await fetch("/CustomerPricing.json");
+        const products: Product[] = await productRes.json();
+        setProductData(products);
+      } catch (error) {
+        console.error(t("error.priceList") || "Error loading price list:", error);
+      }
+    };
+
+    void fetchData();
+  }, [t]);
+
+  const handleRemoveLine = (sku: string) => {
+    setOrderLines((prevLines) => {
+      const newLines = prevLines
+        .map((line) => (line.SKU === sku ? { ...line, qty: 0 } : line))
+        .filter((line) => line.qty > 0);
+      
+      if (currentOrderId) {
+        orderService.updateOrder(currentOrderId, newLines);
+      }
+      
+      return newLines;
+    });
+  };
+
+  const handleLoadOrder = (loadedOrderLines: OrderLine[], orderId: string) => {
+    if (currentOrderId) {
+      orderService.updateOrder(currentOrderId, orderLines);
+    }
+    setOrderLines(loadedOrderLines);
+    setCurrentOrderId(orderId);
+  };
+
+  const handleNewOrder = () => {
+    setOrderLines([]);
+    setCurrentOrderId(null);
+  };
+
+  const handleSubmitOrder = () => {
+    // TODO: Implement order submission logic
+    console.log('Submitting order:', orderLines);
+  };
+
+  return (
+    <Box 
+      sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}
+      className="kor-order-management-layout"
+    >
+      {/* KOR Layout: Header Section (5%) */}
+      <Box sx={{ height: '5%', minHeight: '48px' }}>
+        <Header />
+      </Box>
+
+      {/* KOR Layout: Main Content Area (90%) */}
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: 'column',
+        height: '90%',
+        overflow: 'hidden'
+      }}>
+        {/* KOR Layout: Price List Section (50% of main content) */}
+        <Box sx={{ 
+          height: '50%',
+          overflow: 'auto',
+          border: '1px solid',
+          borderColor: 'divider',
+          borderRadius: 1,
+          p: 2,
+          mb: 2
+        }}>
+          <PriceList
+            productData={productData}
+            orderLines={orderLines}
+            setOrderLines={setOrderLines}
+            flagMapping={{}}
+            stockData={[]}
+          />
+        </Box>
+
+        {/* KOR Layout: Order List Section (40% of main content) */}
+        <Box sx={{ 
+          height: '40%',
+          overflow: 'auto',
+          border: '1px solid',
+          borderColor: 'divider',
+          borderRadius: 1,
+          p: 2
+        }}>
+          <Order
+            orderLines={orderLines}
+            productData={productData}
+            onRemoveLine={handleRemoveLine}
+            orderManagement={
+              <OrderManagement
+                currentOrderId={currentOrderId}
+                currentOrderLines={orderLines}
+                onLoadOrder={handleLoadOrder}
+                onNewOrder={handleNewOrder}
+              />
+            }
+          />
+        </Box>
+      </Box>
+
+      {/* KOR Layout: Order Button Section (5%) */}
+      <Box sx={{ 
+        height: '5%',
+        minHeight: '48px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderTop: '1px solid',
+        borderColor: 'divider',
+        p: 1
+      }}>
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          fullWidth
+          disabled={orderLines.length === 0}
+          onClick={handleSubmitOrder}
+          sx={{
+            maxWidth: '400px',
+            height: '100%',
+            fontSize: '1.1rem',
+            fontWeight: 600
+          }}
+        >
+          {t('order.submit') || 'Submit Order'}
+        </Button>
+      </Box>
+    </Box>
+  );
+};
+
+export default App; 

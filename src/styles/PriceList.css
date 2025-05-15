@@ -13,9 +13,9 @@
 .table-container {
   width: 99%;
   margin: 0 auto;
-  background-color: #fff;
+  background-color: var(--mui-palette-background-paper);
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--mui-shadows-1);
   padding: 16px;
   box-sizing: border-box;
   overflow: hidden;
@@ -28,7 +28,7 @@
   margin: 15px 10px;
   font-size: 20px;
   font-weight: 600;
-  color: #333;
+  color: var(--mui-palette-text-primary);
 }
 
 /* Zoekbalk */
@@ -42,13 +42,15 @@
   width: 250px;
   padding: 8px;
   font-size: 14px;
-  border: 1px solid #aaa;
+  border: 1px solid var(--mui-palette-divider);
   border-radius: 6px;
   transition: border-color 0.2s ease-in-out;
+  background-color: var(--mui-palette-background-default);
+  color: var(--mui-palette-text-primary);
 }
 
 .search-input:focus {
-  border-color: var(--primary-blue);
+  border-color: var(--mui-palette-primary-main);
   outline: none;
 }
 
@@ -70,18 +72,19 @@
   width: 100%;
   align-items: center;
   padding: 0;
-  border-bottom: 1px solid var(--muted-border);
+  border-bottom: 1px solid var(--mui-palette-divider);
   font-size: 14px;
   line-height: 1.4;
+  color: var(--mui-palette-text-primary);
 }
 
 /* Rijachtergrond */
 .table-row:nth-child(odd) {
-  background-color: #f9f9f9;
+  background-color: var(--mui-palette-background-default);
 }
 
 .table-row:hover {
-  background-color: #f3f3f3;
+  background-color: var(--mui-palette-action-hover);
   transition: background 0.2s ease-in-out;
 }
 
@@ -180,16 +183,17 @@
 
 .old-price {
   text-decoration: line-through;
-  color: #888;
+  color: var(--mui-palette-text-disabled);
   margin-right: 6px;
 }
 
 .new-price {
   font-weight: bold;
-  color: var(--danger);
-  background-color: var(--danger-bg);
+  color: #d32f2f;
+  background-color: #ffebee;
   padding: 2px 6px;
   border-radius: 4px;
+  display: inline-block;
 }
 
 .pallet-block {
@@ -206,14 +210,15 @@
 }
 
 .discount-info {
-  background-color: #ffdd99;
-  color: #222;
+  background-color: #fff3e0;
+  color: #e65100;
   padding: 3px 6px;
   border-radius: 4px;
   font-size: 12px;
   font-weight: bold;
   display: inline-block;
   text-align: center;
+  border: 1px solid #ffe0b2;
 }
 
 /* Kleine teksten */
@@ -227,7 +232,7 @@
 .category,
 .subcategory {
   font-size: 13px;
-  color: var(--muted-text);
+  color: var(--mui-palette-text-secondary);
   margin: 2px 0;
   font-weight: 500;
 }
@@ -251,45 +256,39 @@
 }
 
 .quantity-button {
-  background-color: var(--primary-blue);
-  color: white;
+  background-color: var(--mui-palette-primary-main);
+  color: var(--mui-palette-primary-contrastText);
   border: none;
   border-radius: 4px;
-  width: 28px;
-  height: 28px;
-  font-size: 14px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 4px 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.2s;
 }
 
 .quantity-button:hover {
-  background-color: var(--primary-blue-dark);
+  background-color: var(--mui-palette-primary-dark);
 }
 
 .quantity-button:active {
-  background-color: var(--primary-blue-darker);
+  background-color: var(--mui-palette-primary-darker);
 }
 
 .quantity-input {
-  width: 50px;
-  height: 28px;
+  width: 60px;
   text-align: center;
-  font-size: 14px;
-  font-weight: 500;
-  border: 1px solid var(--primary-blue);
+  padding: 4px;
+  border: 1px solid var(--mui-palette-divider);
   border-radius: 4px;
-  padding: 0; /* ← This line removes internal spacing */
+  background-color: var(--mui-palette-background-default);
+  color: var(--mui-palette-text-primary);
   outline: none;
-  transition: border-color 0.3s;
-  margin-bottom: 0;
+  transition: all 0.2s ease;
 }
 
 .quantity-input:focus {
-  border-color: var(--primary-blue-dark);
+  border-color: var(--mui-palette-primary-main);
+  box-shadow: 0 0 0 2px var(--mui-palette-primary-light);
+  outline: none;
 }
 
 .pallet-label {
@@ -311,11 +310,16 @@
 
 /* Voorraadindicator */
 .stock-circle {
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  display: inline-block;
-  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--mui-palette-common-white);
+  transition: transform 0.2s ease;
 }
 
 .stock-circle.green {
@@ -331,7 +335,64 @@
 }
 
 .stock-circle:hover {
-  transform: scale(1.2);
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s;
+  transform: scale(1.1);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Special price and discount presentations */
+.pallet-advantage {
+  background-color: #e3f2fd;
+  color: #1565c0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  display: inline-block;
+  text-align: center;
+  border: 1px solid #bbdefb;
+}
+
+/* Price stack styling */
+.price-stack {
+  white-space: nowrap;
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+.price-value {
+  font-weight: 600;
+  color: var(--mui-palette-text-primary);
+}
+
+.price-sep {
+  opacity: 0.45;
+  margin: 0 4px;
+}
+
+/* Savings presentation */
+.savings-promo {
+  background-color: #ffebee;
+  color: #d32f2f;
+  padding: 0 4px;
+  border-radius: 4px;
+  font-weight: 600;
+  border: 1px solid #ffcdd2;
+}
+
+.savings-pallet {
+  background-color: #fff3e0;
+  color: #e65100;
+  padding: 0 4px;
+  border-radius: 4px;
+  font-weight: 600;
+  border: 1px solid #ffe0b2;
+}
+
+.savings-total {
+  font-weight: bold;
+  color: #2e7d32;
+  background-color: #e8f5e9;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #c8e6c9;
 }
