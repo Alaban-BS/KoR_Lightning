@@ -11,16 +11,12 @@ const __dirname = dirname(__filename);
 export default defineConfig({
   plugins: [react()],
   server: {
+    port: 3000,
     host: true,
-    port: 5173,
-    strictPort: true,
-    hmr: {
-      clientPort: 443
-    }
+    strictPort: false,
   },
-  // optioneel – voor de `vite preview`-server (standaard erft hij van server.allowedHosts)
   preview: {
-    port: 5174,
+    port: 3000,
     host: true,
     strictPort: false,
   },
