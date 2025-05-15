@@ -1,4 +1,7 @@
 {
+  "page": {
+    "title": "Lightning Fast Ordering"
+  },
   "common": {
     "welcome": "Welcome to Order Management System",
     "loading": "Loading...",
@@ -15,5 +18,30 @@
     "new": "New Order",
     "list": "Order List",
     "details": "Order Details"
+  },
+  "priceList": {
+    "title": "Price List",
+    "searchPlaceholder": "Search product...",
+    "header": {
+      "price": "Price",
+      "stock": "Stock",
+      "origin": "Origin",
+      "category": "Category",
+      "order": "Order",
+      "packaging": "Packaging",
+      "pricePackaging": "Price / Packaging",
+      "pallet": "# / Pallet",
+      "volume": "Volume",
+      "weight": "Weight"
+    }
+  },
+  "order": {
+    "empty": "No items in order",
+    "m3": "m³",
+    "kg": "kg",
+    "submit": "Place Order"
+  },
+  "user": {
+    "menu": "User Menu"
   }
 } 

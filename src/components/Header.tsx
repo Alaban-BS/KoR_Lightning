@@ -13,12 +13,12 @@ import {
 import { ThemeSwitch } from './ThemeSwitch';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
 export const Header: React.FC = () => {
   const theme = useMuiTheme();
-  const navigate = useNavigate();
+  const router = useRouter();
   const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -33,7 +33,7 @@ export const Header: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem('authenticated');
     handleClose();
-    navigate('/login');
+    router.push('/login');
   };
 
   return (

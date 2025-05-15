@@ -1,24 +1,10 @@
 import React from "react";
-import { FaTrashAlt } from "react-icons/fa";
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useTranslation } from "react-i18next";
 import "../styles/Order.css";
+import { Product, OrderLine } from "../types";
 
 /* ——— types ——— */
-interface OrderLine {
-  SKU: string;
-  qty: number;
-}
-
-interface Product {
-  SKU: string;
-  Name: string;
-  ["Order unit price"]: number | string;
-  ["Discount %"]?: number | string;
-  ["Colli discount"]?: number | string;
-  ["Colli per pallet"]?: number | string;
-  ["order unit"]?: string;
-}
-
 interface Pricing {
   basePrice: number;
   finalPrice: number;
@@ -98,105 +84,32 @@ const OrderLineItem: React.FC<Props> = ({
 
   return (
     <div className="order-line">
-      {/* product name + SKU + delete icon */}
-      <div className="order-line-cell product-info">
-        <span className="order-line-name">{product.Name}</span>
-        <span className="order-line-sku">
-          ({product.SKU})
-          {FaTrashAlt({
-            className: "remove-line-icon",
-            style: { color: "red", cursor: "pointer", marginLeft: "8px" },
-            onClick: (e) => {
-              e.stopPropagation();
-              onRemove();
-            },
-          })}
-        </span>
-      </div>
-
-      {/* quantity */}
-      <div className="order-line-cell order-line-qty">{line.qty}</div>
-
-      {/* price stack */}
-      <div className="order-line-cell order-line-price">
-        <div className="price-stack">
-          <span
-            className={`price-value${finalPrice === "base" ? "" : " strike"}`}
-          >
-            € {basePrice.toFixed(2)}
-          </span>
-
-          {customerPrice !== null && (
-            <>
-              <span className="price-sep"> / </span>
-              <span
-                className={`new-price${
-                  finalPrice === "customer" ? "" : " strike"
-                }`}
-              >
-                € {customerPrice.toFixed(2)}
-              </span>
-            </>
-          )}
-
-          {palletPrice !== null && (
-            <>
-              <span className="price-sep"> / </span>
-              <span
-                className={`pallet-advantage${
-                  finalPrice === "pallet" ? "" : " strike"
-                }`}
-              >
-                € {palletPrice.toFixed(2)}
-              </span>
-            </>
-          )}
+      <div className="order-line-content">
+        <div className="order-line-info">
+          <h3>{product.Name}</h3>
+          <p className="sku">SKU: {product.SKU}</p>
         </div>
-        <span className="subtext price-unit">{product["order unit"]}</span>
-      </div>
-
-      {/* line total + savings */}
-      <div className="order-line-cell order-line-total">
-        € {pricing.lineTotal.toFixed(2)}
-        {totalSavings > 0 && (
-          <div className="total-savings-line">
-            <span className="savings-label">
-              {t("order.savings", { defaultValue: "Savings:" })}{" "}
-            </span>
-
-            <span className="savings-total">€ {totalSavings.toFixed(2)}</span>
-
-            {(promoSavings > 0 || palletSavings > 0) && (
-              <span className="savings-breakdown">
-                {" ("}
-                {promoSavings > 0 && (
-                  <span className="savings-promo">
-                    € {promoSavings.toFixed(2)}
-                  </span>
-                )}
-                {promoSavings > 0 && palletSavings > 0 && (
-                  <span className="savings-plus"> + </span>
-                )}
-                {palletSavings > 0 && (
-                  <span className="savings-pallet">
-                    € {palletSavings.toFixed(2)}
-                  </span>
-                )}
-                {")"}
-              </span>
+        <div className="order-line-details">
+          <div className="quantity">
+            <span>{line.qty}</span>
+          </div>
+          <div className="price">
+            <span>€{pricing.finalPrice.toFixed(2)}</span>
+            {pricing.totalDiscountRate > 0 && (
+              <span className="discount">-{pricing.totalDiscountRate}%</span>
             )}
           </div>
-        )}
-      </div>
-
-      {/* volume & weight */}
-      <div className="order-line-cell order-line-volume-weight">
-        <p className="volume">
-          {volume.toFixed(2)} {t("order.m3", { defaultValue: "m³" })}
-        </p>
-        <span className="weight">
-          {weight.toFixed(2)} {t("order.kg", { defaultValue: "kg" })}
-        </span>
+          <div className="total">
+            <span>€{pricing.lineTotal.toFixed(2)}</span>
+          </div>
+          <div className="volume-weight">
+            <span>{volume.toFixed(2)} m³</span>
+            <span>{weight.toFixed(2)} kg</span>
+          </div>
+          <button className="remove-button" onClick={onRemove}>
+            <DeleteIcon />
+          </button>
+        </div>
       </div>
     </div>
   );
