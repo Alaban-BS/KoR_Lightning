@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
 import { Header } from './components/Header';
 import PriceList from './components/PriceList';
 import Order from './components/Order';
 import OrderManagement from './components/OrderManagement';
+import Login from './components/Login';
 import { Product, OrderLine } from './types';
 import { useTranslation } from 'react-i18next';
 import { orderService } from './services/orderService';
@@ -17,7 +19,7 @@ import { orderService } from './services/orderService';
  * - Order List (40% of main content)
  * - Order Button (5%)
  */
-const App: React.FC = () => {
+const MainContent: React.FC = () => {
   const { t } = useTranslation();
   const [productData, setProductData] = useState<Product[]>([]);
   const [orderLines, setOrderLines] = useState<OrderLine[]>([]);
@@ -180,6 +182,34 @@ const App: React.FC = () => {
         </Button>
       </Box>
     </Box>
+  );
+};
+
+const App: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
+    localStorage.getItem("authenticated") === "true"
+  );
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkAuth = () => {
+      setIsAuthenticated(localStorage.getItem("authenticated") === "true");
+    };
+
+    window.addEventListener("storage", checkAuth);
+    return () => {
+      window.removeEventListener("storage", checkAuth);
+    };
+  }, []);
+
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route
+        path="/"
+        element={isAuthenticated ? <MainContent /> : <Navigate to="/login" />}
+      />
+    </Routes>
   );
 };
 
