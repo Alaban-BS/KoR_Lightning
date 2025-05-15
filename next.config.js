@@ -85,7 +85,6 @@ const nextConfig = {
   experimental: {
     optimizeCss: true,
     scrollRestoration: true,
-    serverActions: true,
     serverComponentsExternalPackages: ['@mui/material'],
   },
   // Configure i18n
