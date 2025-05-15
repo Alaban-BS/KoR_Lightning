@@ -5,6 +5,7 @@ const nextConfig = {
   images: {
     domains: ['localhost'],
     unoptimized: process.env.NODE_ENV === 'development',
+    formats: ['image/avif', 'image/webp'],
   },
   webpack: (config, { dev, isServer }) => {
     // Optimize bundle size
@@ -84,12 +85,18 @@ const nextConfig = {
   experimental: {
     optimizeCss: true,
     scrollRestoration: true,
+    serverActions: true,
+    serverComponentsExternalPackages: ['@mui/material'],
   },
   // Configure i18n
   i18n: {
     locales: ['en'],
     defaultLocale: 'en',
   },
+  // Configure ports
+  env: {
+    PORT: process.env.PORT || '3000',
+  },
 };
 
-module.exports = nextConfig; 
+export default nextConfig; 
