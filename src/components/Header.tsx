@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -7,9 +7,12 @@ import {
   useTheme as useMuiTheme,
   IconButton,
   Tooltip,
+  Menu,
+  MenuItem,
 } from '@mui/material';
 import { ThemeSwitch } from './ThemeSwitch';
 import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -17,9 +20,19 @@ export const Header: React.FC = () => {
   const theme = useMuiTheme();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('authenticated');
+    handleClose();
     navigate('/login');
   };
 
@@ -47,9 +60,13 @@ export const Header: React.FC = () => {
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <ThemeSwitch />
-          <Tooltip title={t('logout.button', { defaultValue: 'Logout' })}>
-            <IconButton 
-              onClick={handleLogout}
+          <Tooltip title={t('user.menu', { defaultValue: 'User menu' })}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
               color="inherit"
               sx={{
                 '&:hover': {
@@ -57,9 +74,29 @@ export const Header: React.FC = () => {
                 },
               }}
             >
-              <LogoutIcon />
+              <AccountCircleIcon />
             </IconButton>
           </Tooltip>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleLogout} sx={{ gap: 1 }}>
+              <LogoutIcon fontSize="small" />
+              {t('logout.button', { defaultValue: 'Logout' })}
+            </MenuItem>
+          </Menu>
         </Box>
       </Toolbar>
     </AppBar>

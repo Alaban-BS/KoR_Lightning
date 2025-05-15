@@ -22,9 +22,7 @@ export default defineConfig({
   ],
   server: {
     port: 8080,
-    host: true,
-    strictPort: true,
-    open: true
+    host: true
   },
   preview: {
     port: 8080,
@@ -39,10 +37,9 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          mui: ['@mui/material', '@mui/icons-material'],
-          i18n: ['i18next', 'react-i18next'],
-          emotion: ['@emotion/react', '@emotion/styled']
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'mui-vendor': ['@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled'],
+          'i18n-vendor': ['i18next', 'react-i18next']
         }
       }
     }
@@ -53,12 +50,9 @@ export default defineConfig({
       'react-dom',
       'react-router-dom',
       '@mui/material',
-      '@mui/icons-material',
-      'prop-types',
-      'hoist-non-react-statics',
-      'react-is',
       '@emotion/react',
-      '@emotion/styled'
+      '@emotion/styled',
+      'react-is'
     ],
     exclude: ['@mui/material/styles'],
     esbuildOptions: {
@@ -70,11 +64,11 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
-      'prop-types': resolve(__dirname, 'node_modules/prop-types/index.js'),
-      'hoist-non-react-statics': resolve(__dirname, 'node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js'),
-      'react-is': resolve(__dirname, 'node_modules/react-is/index.js'),
-      '@emotion/react': resolve(__dirname, 'node_modules/@emotion/react/dist/emotion-react.browser.esm.js'),
-      '@emotion/styled': resolve(__dirname, 'node_modules/@emotion/styled/dist/emotion-styled.browser.esm.js')
+      'react': resolve(__dirname, 'node_modules/react'),
+      'react-dom': resolve(__dirname, 'node_modules/react-dom'),
+      '@mui/material': resolve(__dirname, 'node_modules/@mui/material'),
+      '@emotion/react': resolve(__dirname, 'node_modules/@emotion/react'),
+      '@emotion/styled': resolve(__dirname, 'node_modules/@emotion/styled')
     },
     dedupe: ['react', 'react-dom', 'react-is', '@emotion/react', '@emotion/styled']
   }
