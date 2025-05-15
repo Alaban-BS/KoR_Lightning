@@ -1,0 +1,19 @@
+{
+  "common": {
+    "welcome": "Welcome to Order Management System",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "signup": "Sign Up"
+  },
+  "orders": {
+    "title": "Orders",
+    "new": "New Order",
+    "list": "Order List",
+    "details": "Order Details"
+  }
+} 

@@ -1,15 +1,7 @@
-'use client';
+import { metadata } from './metadata';
+import Template from './template';
 
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { theme } from '@/lib/theme';
-import { AuthProvider } from '@/components/providers/AuthProvider';
-import { I18nProvider } from '@/components/providers/I18nProvider';
-
-export const metadata = {
-  title: 'Order Management System',
-  description: 'A modern order management system built with Next.js',
-};
+export { metadata };
 
 export default function RootLayout({
   children,
@@ -19,14 +11,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <I18nProvider>
-            <AuthProvider>
-              {children}
-            </AuthProvider>
-          </I18nProvider>
-        </ThemeProvider>
+        <Template>
+          {children}
+        </Template>
       </body>
     </html>
   );
