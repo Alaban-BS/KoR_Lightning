@@ -74,6 +74,16 @@ const nextConfig = {
       },
     ];
   },
+  // Add experimental features
+  experimental: {
+    optimizeCss: true,
+    scrollRestoration: true,
+  },
+  // Configure i18n
+  i18n: {
+    locales: ['en'],
+    defaultLocale: 'en',
+  },
 };
 
 module.exports = nextConfig; 
