@@ -1,11 +1,11 @@
 /// <reference types="node" />
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { fileURLToPath } from 'node:url';
-import { dirname, resolve } from 'node:path';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = path.dirname(__filename);
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -63,12 +63,12 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src'),
-      'react': resolve(__dirname, 'node_modules/react'),
-      'react-dom': resolve(__dirname, 'node_modules/react-dom'),
-      '@mui/material': resolve(__dirname, 'node_modules/@mui/material'),
-      '@emotion/react': resolve(__dirname, 'node_modules/@emotion/react'),
-      '@emotion/styled': resolve(__dirname, 'node_modules/@emotion/styled')
+      '@': path.resolve(__dirname, './src'),
+      'react': path.resolve(__dirname, 'node_modules/react'),
+      'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
+      '@mui/material': path.resolve(__dirname, 'node_modules/@mui/material'),
+      '@emotion/react': path.resolve(__dirname, 'node_modules/@emotion/react'),
+      '@emotion/styled': path.resolve(__dirname, 'node_modules/@emotion/styled')
     },
     dedupe: ['react', 'react-dom', 'react-is', '@emotion/react', '@emotion/styled']
   }
