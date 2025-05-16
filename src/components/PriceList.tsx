@@ -1,34 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, Dispatch, SetStateAction } from "react";
 import { FixedSizeList as List, ListChildComponentProps } from "react-window";
 import "../styles/PriceList.css";
 import { Product, OrderLine } from "../types";
 import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 import PriceListRow from "./PriceListRow";
+
+interface StockItem {
+  SKU: string;
+  "Qty Available": number;
+  "Lead Time (days)": number;
+}
 
 interface PriceListProps {
   productData: Product[];
   orderLines: OrderLine[];
-  setOrderLines: React.Dispatch<React.SetStateAction<OrderLine[]>>;
+  setOrderLines: Dispatch<SetStateAction<OrderLine[]>>;
   flagMapping: Record<string, string>;
-  stockData: any[];
+  stockData: StockItem[];
 }
 
-const PriceList: React.FC<PriceListProps> = ({
+const PriceList = ({
   productData,
   orderLines,
   setOrderLines,
   flagMapping,
   stockData,
-}) => {
-  const { t } = useTranslation() as {
-    t: (key: string, options?: any) => string;
-  };
+}: PriceListProps) => {
+  const { t } = useTranslation() as { t: TFunction };
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [palletCheckMap, setPalletCheckMap] = useState<Record<string, boolean>>(
-    {}
-  );
+  const [palletCheckMap, setPalletCheckMap] = useState<Record<string, boolean>>({});
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearchQuery(e.target.value);
   };
 
@@ -38,7 +41,7 @@ const PriceList: React.FC<PriceListProps> = ({
       product.SKU.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const renderRow: React.FC<ListChildComponentProps> = ({ index, style }) => {
+  const renderRow = ({ index, style }: ListChildComponentProps) => {
     const product = filteredData[index];
     if (!product) return <></>;
     return (
