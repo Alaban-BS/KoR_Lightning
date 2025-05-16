@@ -203,10 +203,16 @@ const PriceListRow = ({
       {/* PACKAGING */}
       <div className="cell left header-verpakking">
         <div className="packaging-block">
-          <p className="packaging-main">
-            {/* Temporary display until we fix the @ replacement */}
-            {product?.Colli || ""}
-          </p>
+          <p
+            className="packaging-main"
+            dangerouslySetInnerHTML={{
+              __html: product?.Colli && typeof product.Colli === 'string'
+                ? (product.Colli.includes("@")
+                  ? product.Colli.replace("@", "@<br/>")
+                  : product.Colli)
+                : "",
+            }}
+          ></p>
         </div>
       </div>
 
