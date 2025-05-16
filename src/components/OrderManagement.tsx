@@ -1,7 +1,7 @@
-import React, { useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { orderService, SavedOrder } from '../services/orderService';
-import { OrderLine, Product } from '../types';
+import { OrderLine } from '../types';
 import '../styles/OrderManagement.css';
 
 interface OrderManagementProps {
@@ -30,74 +30,79 @@ const useAutoShowDialog = (
   }, [shouldShow, delay, onShow]);
 };
 
-export const OrderManagement: React.FC<OrderManagementProps> = ({
+function OrderManagement({
   currentOrderId,
   currentOrderLines,
   onLoadOrder,
   onNewOrder
-}) => {
+}: OrderManagementProps) {
   const { t } = useTranslation();
-  const [orders, setOrders] = useState<Array<{ id: string; orderLines: OrderLine[] }>>([]);
-  const [showDialog, setShowDialog] = useState(false);
-  const [orderName, setOrderName] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const [orders, setOrders] = useState<SavedOrder[]>([]);
   const [showNewOrderDialog, setShowNewOrderDialog] = useState(false);
   const [newOrderName, setNewOrderName] = useState('');
   const [isEditingName, setIsEditingName] = useState(false);
   const [editedName, setEditedName] = useState('');
   const [nameError, setNameError] = useState('');
-  const [duplicateOrder, setDuplicateOrder] = useState(false);
-  const [isFirstOrder, setIsFirstOrder] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
-  // Load orders on mount
+  // Load orders on mount and when orders change
   useEffect(() => {
-    const savedOrders = orderService.getAllOrders();
-    setOrders(savedOrders);
+    loadOrders();
   }, []);
 
-  // Auto-show dialog if no orders exist
+  // Auto-create first order if none exists
   useEffect(() => {
-    if (orders.length === 0) {
-      setShowDialog(true);
+    if (orders.length === 0 && currentOrderLines.length > 0) {
+      const date = new Date();
+      const dateStr = date.toLocaleDateString();
+      const newOrderId = orderService.saveOrder(currentOrderLines, `${dateStr} - Order 1`);
+      loadOrders();
+      onLoadOrder(currentOrderLines, newOrderId);
     }
-  }, [orders]);
+  }, [currentOrderLines, orders.length]);
 
-  useEffect(() => {
-    // Check if this is the first order
-    const orders = orderService.getAllOrders();
-    setIsFirstOrder(orders.length === 0);
-  }, [orders.length]);
-
+  // Update edited name when current order changes
   useEffect(() => {
     if (currentOrderId) {
-      const currentOrder = orders.find((order: SavedOrder) => order.id === currentOrderId);
+      const currentOrder = orders.find(order => order.id === currentOrderId);
       if (currentOrder) {
         setEditedName(currentOrder.name);
       }
     }
   }, [currentOrderId, orders]);
 
+  // Save order changes when order lines change
   useEffect(() => {
-    if (showNewOrderDialog) {
-      const date = new Date();
-      const dateStr = date.toLocaleDateString();
-      const orderCount = orders.length + 1;
-      setNewOrderName(`${dateStr} - Order ${orderCount}`);
+    if (currentOrderId && currentOrderLines.length > 0) {
+      try {
+        orderService.updateOrder(currentOrderId, currentOrderLines);
+        loadOrders(); // Refresh orders list to show updated data
+      } catch (error) {
+        console.error('Error saving order changes:', error);
+      }
     }
-  }, [showNewOrderDialog, orders.length]);
+  }, [currentOrderLines, currentOrderId]);
+
+  const loadOrders = () => {
+    const savedOrders = orderService.getAllOrders();
+    const sortedOrders = savedOrders.sort((a, b) => 
+      new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+    setOrders(sortedOrders);
+  };
 
   const handleLoadOrder = (orderId: string) => {
     const order = orders.find(o => o.id === orderId);
     if (order) {
       onLoadOrder(order.orderLines, order.id);
+      setIsOpen(false); // Close the orders panel
     }
   };
 
   const handleDeleteOrder = (orderId: string) => {
     try {
       orderService.deleteOrder(orderId);
-      setOrders(prevOrders => prevOrders.filter(o => o.id !== orderId));
+      loadOrders();
       if (currentOrderId === orderId) {
         onNewOrder();
       }
@@ -106,44 +111,14 @@ export const OrderManagement: React.FC<OrderManagementProps> = ({
     }
   };
 
-  const handleCreateOrder = () => {
-    if (!orderName.trim()) {
-      setError(t('orderNameRequired'));
-      return;
-    }
-
-    try {
-      const newOrder = orderService.createOrder(orderName);
-      setOrders(prevOrders => [...prevOrders, newOrder]);
-      onLoadOrder(newOrder.orderLines, newOrder.id);
-      setShowDialog(false);
-      setOrderName('');
-      setError(null);
-    } catch (error) {
-      console.error('Error creating order:', error);
-      setError(t('errorCreatingOrder'));
-    }
-  };
-
   const handleCreateNewOrder = () => {
     if (validateOrderName(newOrderName)) {
       try {
-        // Create new order without duplication for first order
-        const newOrderId = orderService.saveOrder(
-          isFirstOrder ? currentOrderLines : (duplicateOrder ? currentOrderLines : []),
-          newOrderName.trim()
-        );
-        
-        // Refresh orders list
+        const newOrderId = orderService.saveOrder([], newOrderName.trim());
         loadOrders();
-        
-        // Load the newly created order
-        onLoadOrder(isFirstOrder ? currentOrderLines : (duplicateOrder ? currentOrderLines : []), newOrderId);
-        
-        // Reset dialog state
+        onLoadOrder([], newOrderId);
         setShowNewOrderDialog(false);
         setNewOrderName('');
-        setDuplicateOrder(false);
       } catch (error) {
         console.error('Error creating new order:', error);
       }
@@ -152,50 +127,14 @@ export const OrderManagement: React.FC<OrderManagementProps> = ({
 
   const handleUpdateOrderName = () => {
     if (currentOrderId && validateOrderName(editedName, currentOrderId)) {
-      const currentOrder = orders.find((order: SavedOrder) => order.id === currentOrderId);
-      if (currentOrder) {
+      try {
         orderService.updateOrderName(currentOrderId, editedName.trim());
         loadOrders();
         setIsEditingName(false);
+      } catch (error) {
+        console.error('Error updating order name:', error);
       }
     }
-  };
-
-  const formatDate = (date: string) => {
-    return new Date(date).toLocaleString();
-  };
-
-  const currentOrder = orders.find((order: SavedOrder) => order.id === currentOrderId);
-  const hasOtherOrders = orders.length > 1;
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleUpdateOrderName();
-    } else if (e.key === 'Escape') {
-      setIsEditingName(false);
-      setEditedName(currentOrder?.name || '');
-      setNameError('');
-    }
-  };
-
-  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEditedName(e.target.value);
-  };
-
-  const handleNewOrderNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewOrderName(e.target.value);
-  };
-
-  const handleDuplicateOrderChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setDuplicateOrder(e.target.checked);
-  };
-
-  const loadOrders = () => {
-    const savedOrders = orderService.getAllOrders();
-    const sortedOrders = savedOrders.sort((a: SavedOrder, b: SavedOrder) => 
-      new Date(b.date).getTime() - new Date(a.date).getTime()
-    );
-    setOrders(sortedOrders);
   };
 
   const validateOrderName = (name: string, currentId?: string): boolean => {
@@ -204,7 +143,7 @@ export const OrderManagement: React.FC<OrderManagementProps> = ({
       return false;
     }
 
-    const isDuplicate = orders.some((order: SavedOrder) => 
+    const isDuplicate = orders.some(order => 
       order.name.toLowerCase() === name.toLowerCase() && order.id !== currentId
     );
 
@@ -217,196 +156,127 @@ export const OrderManagement: React.FC<OrderManagementProps> = ({
     return true;
   };
 
+  const handleKeyPress = (e: { key: string }) => {
+    if (e.key === 'Enter') {
+      handleUpdateOrderName();
+    }
+  };
+
+  const currentOrder = orders.find(order => order.id === currentOrderId);
+
   return (
     <div className="order-management">
       <div className="order-management-header">
-        <h2>{t('orderManagement')}</h2>
-        <button onClick={() => setShowDialog(true)} className="new-order-button">
-          {t('newOrder')}
-        </button>
+        <div className="current-order-title">
+          <div className="title-container">
+            {isEditingName ? (
+              <input
+                type="text"
+                value={editedName}
+                onChange={(e) => setEditedName(e.target.value)}
+                onKeyDown={handleKeyPress}
+                onBlur={handleUpdateOrderName}
+                className={nameError ? 'error' : ''}
+                autoFocus
+              />
+            ) : (
+              <h2 onClick={() => setIsEditingName(true)}>
+                {currentOrder?.name || t('newOrder')}
+              </h2>
+            )}
+            {nameError && <div className="error-message">{nameError}</div>}
+          </div>
+          <button
+            className="edit-name-button"
+            onClick={() => setIsEditingName(true)}
+            title={t('editOrderName')}
+          >
+            ✎
+          </button>
+        </div>
+        <div className="order-management-buttons">
+          <button
+            className="saved-orders-toggle"
+            onClick={() => setIsOpen(!isOpen)}
+            title={t('savedOrders')}
+          >
+            📋
+          </button>
+          <button
+            className="new-order-button"
+            onClick={() => setShowNewOrderDialog(true)}
+            title={t('newOrder')}
+          >
+            +
+          </button>
+        </div>
       </div>
 
-      {showDialog && (
+      {showNewOrderDialog && (
         <div className="order-dialog">
           <div className="order-dialog-content">
             <h3>{t('createNewOrder')}</h3>
             <input
               type="text"
-              value={orderName}
-              onChange={(e) => setOrderName(e.target.value)}
+              value={newOrderName}
+              onChange={(e) => setNewOrderName(e.target.value)}
               placeholder={t('enterOrderName')}
-              className={error ? 'error' : ''}
+              className={nameError ? 'error' : ''}
             />
-            {error && <div className="error-message">{error}</div>}
+            {nameError && <div className="error-message">{nameError}</div>}
             <div className="dialog-buttons">
-              <button onClick={handleCreateOrder}>{t('create')}</button>
-              <button onClick={() => setShowDialog(false)}>{t('cancel')}</button>
+              <button onClick={handleCreateNewOrder}>{t('create')}</button>
+              <button onClick={() => {
+                setShowNewOrderDialog(false);
+                setNewOrderName('');
+                setNameError('');
+              }}>{t('cancel')}</button>
             </div>
           </div>
         </div>
       )}
 
-      <div className="order-list">
-        {orders.map((order) => (
-          <div key={order.id} className="order-item">
-            <div className="order-item-header">
-              <span>{order.id}</span>
-              <div className="order-item-actions">
-                <button onClick={() => handleLoadOrder(order.id)}>
-                  {t('load')}
-                </button>
-                <button onClick={() => handleDeleteOrder(order.id)}>
-                  {t('delete')}
-                </button>
-              </div>
-            </div>
-            <div className="order-item-details">
-              {order.orderLines.map((line) => (
-                <div key={line.SKU} className="order-line">
-                  <span>{line.SKU}</span>
-                  <span>{line.qty}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {currentOrder ? (
-        <div className="current-order-title">
-          {isEditingName ? (
-            <div className="title-container">
-              <input
-                type="text"
-                value={editedName}
-                onChange={handleNameChange}
-                onKeyDown={handleKeyDown}
-                className={`title-input ${nameError ? 'error' : ''}`}
-                autoFocus
-              />
-              {nameError && <span className="error-message">{nameError}</span>}
-            </div>
-          ) : (
-            <div className="title-container">
-              <h2>{currentOrder.name}</h2>
-              <button 
-                className="edit-name-button"
-                onClick={() => setIsEditingName(true)}
-                title={t('orderManagement.editName')}
-              >
-                ✎
-              </button>
-              <button 
-                className="delete-order-button"
-                onClick={() => handleDeleteOrder(currentOrder.id)}
-                title={t('orderManagement.delete')}
-              >
-                🗑️
-              </button>
-              <button 
-                className={`saved-orders-toggle ${!hasOtherOrders ? 'disabled' : ''}`}
-                onClick={() => hasOtherOrders && setIsOpen(!isOpen)}
-                title={hasOtherOrders ? t('orderManagement.savedOrders') : t('orderManagement.noSavedOrders')}
-                disabled={!hasOtherOrders}
-              >
-                ▼
-              </button>
-              <button 
-                className="new-order-button"
-                onClick={onNewOrder}
-                title={t('orderManagement.newOrder')}
-              >
-                +
-              </button>
-            </div>
-          )}
-        </div>
-      ) : (
-        <div className="title-container">
-          <h2>{t('orderManagement.emptyOrderMessage')}</h2>
-        </div>
-      )}
-
-      {isOpen && hasOtherOrders && (
+      {isOpen && (
         <div className="saved-orders-panel">
-          {orders.length === 0 ? (
-            <p className="no-orders">
-              {t('orderManagement.empty')}
-            </p>
-          ) : (
+          {orders.length > 0 ? (
             <ul className="orders-list">
-              {orders.map((order: SavedOrder) => (
-                <li 
-                  key={order.id} 
+              {orders.map((order) => (
+                <li
+                  key={order.id}
                   className={`order-item ${order.id === currentOrderId ? 'active' : ''}`}
-                  onClick={() => handleLoadOrder(order.id)}
                 >
-                  <div className="order-info">
+                  <div className="order-info" onClick={() => handleLoadOrder(order.id)}>
                     <span className="order-name">{order.name}</span>
                     <span className="order-details">
-                      {formatDate(order.date)} • {order.orderLines.length} {t('orderManagement.items')}
+                      {order.orderLines.length} {t('items')} • {new Date(order.date).toLocaleDateString()}
                     </span>
+                  </div>
+                  <div className="order-actions">
+                    <button
+                      className="load-order"
+                      onClick={() => handleLoadOrder(order.id)}
+                    >
+                      {t('load')}
+                    </button>
+                    <button
+                      className="delete-order"
+                      onClick={() => handleDeleteOrder(order.id)}
+                    >
+                      {t('delete')}
+                    </button>
                   </div>
                 </li>
               ))}
             </ul>
+          ) : (
+            <div className="no-orders">
+              {t('noSavedOrders')}
+            </div>
           )}
-        </div>
-      )}
-
-      {showNewOrderDialog && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3>{t('orderManagement.createNewOrder')}</h3>
-            <div className="input-group">
-              <label htmlFor="orderName">
-                {t('orderManagement.orderName')}
-              </label>
-              <input
-                type="text"
-                id="orderName"
-                value={newOrderName}
-                onChange={handleNewOrderNameChange}
-                className={nameError ? 'error' : ''}
-                autoFocus
-              />
-              {nameError && <span className="error-message">{nameError}</span>}
-            </div>
-            {!isFirstOrder && currentOrderLines.length > 0 && (
-              <div className="checkbox-group">
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={duplicateOrder}
-                    onChange={handleDuplicateOrderChange}
-                  />
-                  {t('orderManagement.duplicateOrder')}
-                </label>
-              </div>
-            )}
-            <div className="modal-actions">
-              <button 
-                className="cancel-button"
-                onClick={() => {
-                  setShowNewOrderDialog(false);
-                  setNameError('');
-                  setDuplicateOrder(false);
-                }}
-              >
-                {t('orderManagement.cancel')}
-              </button>
-              <button 
-                className="create-button"
-                onClick={handleCreateNewOrder}
-              >
-                {t('orderManagement.create')}
-              </button>
-            </div>
-          </div>
         </div>
       )}
     </div>
   );
-};
+}
 
 export default OrderManagement; 
