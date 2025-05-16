@@ -60,13 +60,13 @@ const PriceListRow = ({
   };
 
   const handleIncrement = (): void => {
-    let current = parseInt(localQty, 10) || 0;
+    const current = parseInt(localQty, 10) || 0;
     const pallet = Number(product["Colli per pallet"]) || 1;
     setAndSaveQty(current + (usePallet ? pallet : 1));
   };
 
   const handleDecrement = (): void => {
-    let current = parseInt(localQty, 10) || 0;
+    const current = parseInt(localQty, 10) || 0;
     if (current <= 0) return;
     const pallet = Number(product["Colli per pallet"]) || 1;
     setAndSaveQty(Math.max(0, current - (usePallet ? pallet : 1)));
@@ -94,7 +94,7 @@ const PriceListRow = ({
   const stockItem = stockData.find((item: any) => item.SKU === product.SKU);
   const qtyAvailable = stockItem?.["Qty Available"] || 0;
   const leadTime = stockItem?.["Lead Time (days)"] || 0;
-  let stockStatus = qtyAvailable === 0 ? (leadTime < 16 ? "orange" : "red") : "green";
+  const stockStatus = qtyAvailable === 0 ? (leadTime < 16 ? "orange" : "red") : "green";
 
   return (
     <div className="table-row" style={style}>
