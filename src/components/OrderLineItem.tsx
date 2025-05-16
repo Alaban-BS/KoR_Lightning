@@ -1,6 +1,5 @@
 import React from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useTranslation } from "react-i18next";
 import "../styles/Order.css";
 import { Product, OrderLine } from "../types";
 

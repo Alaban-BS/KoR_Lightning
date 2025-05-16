@@ -88,7 +88,7 @@ export default function DashboardPage() {
             />
             <Order
               orderLines={currentOrderLines}
-              productData={customerPricing as Product[]}
+              productData={customerPricing as unknown as Product[]}
               onRemoveLine={handleRemoveLine}
               orderManagement={
                 <OrderManagement
