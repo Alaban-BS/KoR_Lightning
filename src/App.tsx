@@ -8,6 +8,7 @@ import OrderManagement from './components/OrderManagement';
 import Login from './components/Login';
 import { useTranslation } from 'react-i18next';
 import { useOrderManagement } from './hooks/useOrderManagement';
+import { OrderLine } from './types';
 
 /**
  * KOR Order Management Layout
@@ -20,11 +21,10 @@ import { useOrderManagement } from './hooks/useOrderManagement';
  */
 const MainContent = () => {
   const { t } = useTranslation();
+  const [orderLines, setOrderLines] = useState<OrderLine[]>([]);
   const {
-    orderLines,
     currentOrderId,
     productData,
-    setOrderLines,
     handleRemoveLine,
     handleLoadOrder,
     handleNewOrder,
