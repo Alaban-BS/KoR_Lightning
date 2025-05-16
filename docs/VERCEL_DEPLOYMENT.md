@@ -43,6 +43,20 @@ save-exact=true
 legacy-peer-deps=true
 ```
 
+### 4. Required Dependencies
+The project requires these specific dependencies:
+```json
+{
+  "dependencies": {
+    "next": "14.1.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-router-dom": "6.22.1",
+    "@mui/material": "5.15.10"
+  }
+}
+```
+
 ## Deployment Steps
 
 ### 1. Prerequisites
@@ -73,19 +87,6 @@ The project uses the following build configuration:
 - Build Command: `npm run build`
 - Install Command: `npm install`
 
-### 5. Dependencies
-Key dependencies are locked to specific versions:
-```json
-{
-  "dependencies": {
-    "next": "14.1.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "@mui/material": "5.15.10"
-  }
-}
-```
-
 ## Troubleshooting
 
 ### Common Build Issues
@@ -112,6 +113,11 @@ Key dependencies are locked to specific versions:
    - Adjust webpack configuration if chunks are too large
    - Check for unnecessary dependencies
 
+6. **ESLint Errors**
+   - Ensure ESLint configuration is compatible with Next.js
+   - Remove unnecessary plugins (like react-refresh)
+   - Use Next.js recommended ESLint configuration
+
 ### Build Log Analysis
 
 When reviewing build logs, look for:
@@ -122,6 +128,7 @@ When reviewing build logs, look for:
 5. No missing dependencies
 6. Bundle size warnings
 7. Image optimization status
+8. ESLint configuration errors
 
 ## Best Practices
 
