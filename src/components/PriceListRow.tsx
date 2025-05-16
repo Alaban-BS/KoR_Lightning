@@ -88,6 +88,8 @@ const PriceListRow = ({
     }
   };
 
+  const origin = product["Origin of product"];
+  const iso = flagMapping[origin]?.toUpperCase();
   const unitPrice = Number(product["Price unit price"]);
   const orderUnitPrice = Number(product["Order unit price"]);
   const discount = Number(product["Discount %"] || 0);
@@ -163,6 +165,17 @@ const PriceListRow = ({
             </div>
           );
         })}
+        {!product.Flags?.length && origin && (
+          <div className="flag-item" title={origin}>
+            <Image
+              src={`https://flagcdn.com/w20/${iso}.png`}
+              alt={`${origin} flag`}
+              width={20}
+              height={15}
+              className="flag-image"
+            />
+          </div>
+        )}
       </div>
 
       {/* Category */}
