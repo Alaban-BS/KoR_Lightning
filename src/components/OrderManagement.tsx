@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent, KeyboardEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { orderService, SavedOrder } from '../services/orderService';
+import { OrderLine, Product } from '../types';
 import '../styles/OrderManagement.css';
 
 interface OrderManagementProps {
   currentOrderId: string | null;
-  currentOrderLines: any[];
-  onLoadOrder: (orderLines: SavedOrder['orderLines'], orderId: string) => void;
+  currentOrderLines: OrderLine[];
+  onLoadOrder: (loadedOrderLines: OrderLine[], orderId: string) => void;
   onNewOrder: () => void;
 }
 
@@ -29,14 +30,17 @@ const useAutoShowDialog = (
   }, [shouldShow, delay, onShow]);
 };
 
-const OrderManagement: React.FC<OrderManagementProps> = ({
+export const OrderManagement: React.FC<OrderManagementProps> = ({
   currentOrderId,
   currentOrderLines,
   onLoadOrder,
-  onNewOrder,
+  onNewOrder
 }) => {
   const { t } = useTranslation();
-  const [orders, setOrders] = useState<SavedOrder[]>([]);
+  const [orders, setOrders] = useState<Array<{ id: string; orderLines: OrderLine[] }>>([]);
+  const [showDialog, setShowDialog] = useState(false);
+  const [orderName, setOrderName] = useState('');
+  const [error, setError] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [showNewOrderDialog, setShowNewOrderDialog] = useState(false);
   const [newOrderName, setNewOrderName] = useState('');
@@ -46,16 +50,18 @@ const OrderManagement: React.FC<OrderManagementProps> = ({
   const [duplicateOrder, setDuplicateOrder] = useState(false);
   const [isFirstOrder, setIsFirstOrder] = useState(true);
 
-  // Use the custom hook for auto-showing the dialog
-  useAutoShowDialog(
-    currentOrderLines.length > 0 && !currentOrderId,
-    2000,
-    () => setShowNewOrderDialog(true)
-  );
-
+  // Load orders on mount
   useEffect(() => {
-    loadOrders();
+    const savedOrders = orderService.getAllOrders();
+    setOrders(savedOrders);
   }, []);
+
+  // Auto-show dialog if no orders exist
+  useEffect(() => {
+    if (orders.length === 0) {
+      setShowDialog(true);
+    }
+  }, [orders]);
 
   useEffect(() => {
     // Check if this is the first order
@@ -65,7 +71,7 @@ const OrderManagement: React.FC<OrderManagementProps> = ({
 
   useEffect(() => {
     if (currentOrderId) {
-      const currentOrder = orders.find(order => order.id === currentOrderId);
+      const currentOrder = orders.find((order: SavedOrder) => order.id === currentOrderId);
       if (currentOrder) {
         setEditedName(currentOrder.name);
       }
@@ -81,97 +87,42 @@ const OrderManagement: React.FC<OrderManagementProps> = ({
     }
   }, [showNewOrderDialog, orders.length]);
 
-  useEffect(() => {
-    if (orders.length === 0 && isOpen) {
-      setIsOpen(false);
+  const handleLoadOrder = (orderId: string) => {
+    const order = orders.find(o => o.id === orderId);
+    if (order) {
+      onLoadOrder(order.orderLines, order.id);
     }
-  }, [orders.length, isOpen]);
-
-  useEffect(() => {
-    if (orders.length === 0 && currentOrderLines.length > 0) {
-      setShowNewOrderDialog(true);
-    }
-  }, [currentOrderLines.length, orders.length]);
-
-  const loadOrders = () => {
-    const savedOrders = orderService.getAllOrders();
-    const sortedOrders = savedOrders.sort((a, b) => 
-      new Date(b.date).getTime() - new Date(a.date).getTime()
-    );
-    setOrders(sortedOrders);
   };
 
-  const handleLoadOrder = (order: SavedOrder) => {
-    // First save the current order if it exists
-    if (currentOrderId) {
-      try {
-        // Save current order with all its changes
-        orderService.updateOrder(currentOrderId, currentOrderLines);
-        console.log('Current order saved before switching:', { currentOrderId, currentOrderLines });
-        
-        // Refresh orders list to ensure we have the latest data
-        loadOrders();
-      } catch (error) {
-        console.error('Error saving current order:', error);
-      }
-    }
-    
-    // Then load the new order
-    onLoadOrder(order.orderLines, order.id);
-    setIsOpen(false);
-  };
-
-  const handleDeleteOrder = (id: string) => {
-    if (window.confirm(t('orderManagement.confirmDelete'))) {
-      const orders = orderService.getAllOrders();
-      const currentIndex = orders.findIndex(order => order.id === id);
-      
-      // Delete the order
-      orderService.deleteOrder(id);
-      loadOrders(); // Refresh the order list
-      
-      // If there are other orders, load the previous one
-      if (orders.length > 1) {
-        const previousOrder = orders[currentIndex - 1] || orders[0];
-        onLoadOrder(previousOrder.orderLines, previousOrder.id);
-      } else {
-        // If this was the last order, clear the current order
+  const handleDeleteOrder = (orderId: string) => {
+    try {
+      orderService.deleteOrder(orderId);
+      setOrders(prevOrders => prevOrders.filter(o => o.id !== orderId));
+      if (currentOrderId === orderId) {
         onNewOrder();
       }
+    } catch (error) {
+      console.error('Error deleting order:', error);
     }
   };
 
-  const handleNewOrder = () => {
-    // Save current order if it exists
-    if (currentOrderId) {
-      try {
-        orderService.updateOrder(currentOrderId, currentOrderLines);
-        console.log('Current order saved before creating new:', { currentOrderId, currentOrderLines });
-        loadOrders(); // Refresh orders list
-      } catch (error) {
-        console.error('Error saving current order:', error);
-      }
-    }
-    setShowNewOrderDialog(true);
-  };
-
-  const validateOrderName = (name: string, currentId?: string): boolean => {
-    if (!name.trim()) {
-      setNameError(t('orderManagement.nameRequired'));
-      return false;
+  const handleCreateOrder = () => {
+    if (!orderName.trim()) {
+      setError(t('orderNameRequired'));
+      return;
     }
 
-    const isDuplicate = orders.some(order => 
-      order.name.toLowerCase() === name.toLowerCase() && order.id !== currentId
-    );
-
-    if (isDuplicate) {
-      setNameError(t('orderManagement.nameDuplicate'));
-      return false;
+    try {
+      const newOrder = orderService.createOrder(orderName);
+      setOrders(prevOrders => [...prevOrders, newOrder]);
+      onLoadOrder(newOrder.orderLines, newOrder.id);
+      setShowDialog(false);
+      setOrderName('');
+      setError(null);
+    } catch (error) {
+      console.error('Error creating order:', error);
+      setError(t('errorCreatingOrder'));
     }
-
-    setNameError('');
-    return true;
   };
 
   const handleCreateNewOrder = () => {
@@ -193,8 +144,6 @@ const OrderManagement: React.FC<OrderManagementProps> = ({
         setShowNewOrderDialog(false);
         setNewOrderName('');
         setDuplicateOrder(false);
-        
-        console.log('New order created successfully:', { newOrderId, isFirstOrder });
       } catch (error) {
         console.error('Error creating new order:', error);
       }
@@ -203,7 +152,7 @@ const OrderManagement: React.FC<OrderManagementProps> = ({
 
   const handleUpdateOrderName = () => {
     if (currentOrderId && validateOrderName(editedName, currentOrderId)) {
-      const currentOrder = orders.find(order => order.id === currentOrderId);
+      const currentOrder = orders.find((order: SavedOrder) => order.id === currentOrderId);
       if (currentOrder) {
         orderService.updateOrderName(currentOrderId, editedName.trim());
         loadOrders();
@@ -216,11 +165,10 @@ const OrderManagement: React.FC<OrderManagementProps> = ({
     return new Date(date).toLocaleString();
   };
 
-  const currentOrder = orders.find(order => order.id === currentOrderId);
-  const isCurrentOrderEmpty = currentOrderLines.length === 0;
+  const currentOrder = orders.find((order: SavedOrder) => order.id === currentOrderId);
   const hasOtherOrders = orders.length > 1;
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       handleUpdateOrderName();
     } else if (e.key === 'Escape') {
@@ -230,8 +178,100 @@ const OrderManagement: React.FC<OrderManagementProps> = ({
     }
   };
 
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEditedName(e.target.value);
+  };
+
+  const handleNewOrderNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNewOrderName(e.target.value);
+  };
+
+  const handleDuplicateOrderChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setDuplicateOrder(e.target.checked);
+  };
+
+  const loadOrders = () => {
+    const savedOrders = orderService.getAllOrders();
+    const sortedOrders = savedOrders.sort((a: SavedOrder, b: SavedOrder) => 
+      new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+    setOrders(sortedOrders);
+  };
+
+  const validateOrderName = (name: string, currentId?: string): boolean => {
+    if (!name.trim()) {
+      setNameError(t('orderManagement.nameRequired'));
+      return false;
+    }
+
+    const isDuplicate = orders.some((order: SavedOrder) => 
+      order.name.toLowerCase() === name.toLowerCase() && order.id !== currentId
+    );
+
+    if (isDuplicate) {
+      setNameError(t('orderManagement.nameDuplicate'));
+      return false;
+    }
+
+    setNameError('');
+    return true;
+  };
+
   return (
     <div className="order-management">
+      <div className="order-management-header">
+        <h2>{t('orderManagement')}</h2>
+        <button onClick={() => setShowDialog(true)} className="new-order-button">
+          {t('newOrder')}
+        </button>
+      </div>
+
+      {showDialog && (
+        <div className="order-dialog">
+          <div className="order-dialog-content">
+            <h3>{t('createNewOrder')}</h3>
+            <input
+              type="text"
+              value={orderName}
+              onChange={(e) => setOrderName(e.target.value)}
+              placeholder={t('enterOrderName')}
+              className={error ? 'error' : ''}
+            />
+            {error && <div className="error-message">{error}</div>}
+            <div className="dialog-buttons">
+              <button onClick={handleCreateOrder}>{t('create')}</button>
+              <button onClick={() => setShowDialog(false)}>{t('cancel')}</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="order-list">
+        {orders.map((order) => (
+          <div key={order.id} className="order-item">
+            <div className="order-item-header">
+              <span>{order.id}</span>
+              <div className="order-item-actions">
+                <button onClick={() => handleLoadOrder(order.id)}>
+                  {t('load')}
+                </button>
+                <button onClick={() => handleDeleteOrder(order.id)}>
+                  {t('delete')}
+                </button>
+              </div>
+            </div>
+            <div className="order-item-details">
+              {order.orderLines.map((line) => (
+                <div key={line.SKU} className="order-line">
+                  <span>{line.SKU}</span>
+                  <span>{line.qty}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
       {currentOrder ? (
         <div className="current-order-title">
           {isEditingName ? (
@@ -239,7 +279,7 @@ const OrderManagement: React.FC<OrderManagementProps> = ({
               <input
                 type="text"
                 value={editedName}
-                onChange={(e) => setEditedName(e.target.value)}
+                onChange={handleNameChange}
                 onKeyDown={handleKeyDown}
                 className={`title-input ${nameError ? 'error' : ''}`}
                 autoFocus
@@ -273,7 +313,7 @@ const OrderManagement: React.FC<OrderManagementProps> = ({
               </button>
               <button 
                 className="new-order-button"
-                onClick={handleNewOrder}
+                onClick={onNewOrder}
                 title={t('orderManagement.newOrder')}
               >
                 +
@@ -295,11 +335,11 @@ const OrderManagement: React.FC<OrderManagementProps> = ({
             </p>
           ) : (
             <ul className="orders-list">
-              {orders.map((order) => (
+              {orders.map((order: SavedOrder) => (
                 <li 
                   key={order.id} 
                   className={`order-item ${order.id === currentOrderId ? 'active' : ''}`}
-                  onClick={() => handleLoadOrder(order)}
+                  onClick={() => handleLoadOrder(order.id)}
                 >
                   <div className="order-info">
                     <span className="order-name">{order.name}</span>
@@ -326,7 +366,7 @@ const OrderManagement: React.FC<OrderManagementProps> = ({
                 type="text"
                 id="orderName"
                 value={newOrderName}
-                onChange={(e) => setNewOrderName(e.target.value)}
+                onChange={handleNewOrderNameChange}
                 className={nameError ? 'error' : ''}
                 autoFocus
               />
@@ -338,7 +378,7 @@ const OrderManagement: React.FC<OrderManagementProps> = ({
                   <input
                     type="checkbox"
                     checked={duplicateOrder}
-                    onChange={(e) => setDuplicateOrder(e.target.checked)}
+                    onChange={handleDuplicateOrderChange}
                   />
                   {t('orderManagement.duplicateOrder')}
                 </label>

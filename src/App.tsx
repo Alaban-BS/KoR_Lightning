@@ -6,9 +6,8 @@ import PriceList from './components/PriceList';
 import Order from './components/Order';
 import OrderManagement from './components/OrderManagement';
 import Login from './components/Login';
-import { Product, OrderLine } from './types';
 import { useTranslation } from 'react-i18next';
-import { orderService } from './services/orderService';
+import { useOrderManagement } from './hooks/useOrderManagement';
 
 /**
  * KOR Order Management Layout
@@ -21,76 +20,16 @@ import { orderService } from './services/orderService';
  */
 const MainContent: React.FC = () => {
   const { t } = useTranslation();
-  const [productData, setProductData] = useState<Product[]>([]);
-  const [orderLines, setOrderLines] = useState<OrderLine[]>([]);
-  const [currentOrderId, setCurrentOrderId] = useState<string | null>(null);
-
-  // Load saved order on initial load
-  useEffect(() => {
-    const savedOrders = orderService.getAllOrders();
-    if (savedOrders.length > 0) {
-      const latestOrder = savedOrders[savedOrders.length - 1];
-      setOrderLines(latestOrder.orderLines);
-      setCurrentOrderId(latestOrder.id);
-    }
-  }, []);
-
-  // Auto-save order when it changes
-  useEffect(() => {
-    if (currentOrderId) {
-      try {
-        orderService.updateOrder(currentOrderId, orderLines);
-      } catch (error) {
-        console.error('Error updating order:', error);
-      }
-    }
-  }, [orderLines, currentOrderId]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const productRes = await fetch("/CustomerPricing.json");
-        const products: Product[] = await productRes.json();
-        setProductData(products);
-      } catch (error) {
-        console.error(t("error.priceList") || "Error loading price list:", error);
-      }
-    };
-
-    void fetchData();
-  }, [t]);
-
-  const handleRemoveLine = (sku: string) => {
-    setOrderLines((prevLines) => {
-      const newLines = prevLines
-        .map((line) => (line.SKU === sku ? { ...line, qty: 0 } : line))
-        .filter((line) => line.qty > 0);
-      
-      if (currentOrderId) {
-        orderService.updateOrder(currentOrderId, newLines);
-      }
-      
-      return newLines;
-    });
-  };
-
-  const handleLoadOrder = (loadedOrderLines: OrderLine[], orderId: string) => {
-    if (currentOrderId) {
-      orderService.updateOrder(currentOrderId, orderLines);
-    }
-    setOrderLines(loadedOrderLines);
-    setCurrentOrderId(orderId);
-  };
-
-  const handleNewOrder = () => {
-    setOrderLines([]);
-    setCurrentOrderId(null);
-  };
-
-  const handleSubmitOrder = () => {
-    // TODO: Implement order submission logic
-    console.log('Submitting order:', orderLines);
-  };
+  const {
+    orderLines,
+    currentOrderId,
+    productData,
+    setOrderLines,
+    handleRemoveLine,
+    handleLoadOrder,
+    handleNewOrder,
+    handleSubmitOrder
+  } = useOrderManagement();
 
   return (
     <Box 
