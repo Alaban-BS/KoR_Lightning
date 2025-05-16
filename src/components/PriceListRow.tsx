@@ -3,18 +3,18 @@ import { useTranslation } from "react-i18next";
 import { Product, OrderLine } from "../types";
 import { roundQtyToPallet } from "../components/priceListUtils";
 
-interface PriceListRowProps {
+type PriceListRowProps = {
   product: Product;
   orderLines: OrderLine[];
-  setOrderLines: React.Dispatch<React.SetStateAction<OrderLine[]>>;
+  setOrderLines: (value: OrderLine[] | ((prevState: OrderLine[]) => OrderLine[])) => void;
   flagMapping: Record<string, string>;
   palletCheckMap: Record<string, boolean>;
-  setPalletCheckMap: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
-  style: React.CSSProperties;
+  setPalletCheckMap: (value: Record<string, boolean> | ((prevState: Record<string, boolean>) => Record<string, boolean>)) => void;
+  style: { [key: string]: string | number };
   stockData: any[];
-}
+};
 
-const PriceListRow: React.FC<PriceListRowProps> = ({
+const PriceListRow = ({
   product,
   orderLines,
   setOrderLines,
@@ -23,11 +23,11 @@ const PriceListRow: React.FC<PriceListRowProps> = ({
   setPalletCheckMap,
   style,
   stockData,
-}) => {
+}: PriceListRowProps) => {
   const { t } = useTranslation() as {
     t: (key: string, options?: any) => string;
   };
-  const existingLine = orderLines.find((item) => item.SKU === product.SKU);
+  const existingLine = orderLines.find((item: OrderLine) => item.SKU === product.SKU);
   const [localQty, setLocalQty] = useState<string>(
     existingLine ? existingLine.qty.toString() : "0"
   );
@@ -35,9 +35,9 @@ const PriceListRow: React.FC<PriceListRowProps> = ({
 
   const setAndSaveQty = (newValue: number): void => {
     setLocalQty(newValue.toString());
-    setOrderLines((prev) => {
+    setOrderLines((prev: OrderLine[]) => {
       // Find the index of the existing line
-      const existingIndex = prev.findIndex(line => line.SKU === product.SKU);
+      const existingIndex = prev.findIndex((line: OrderLine) => line.SKU === product.SKU);
       
       if (existingIndex !== -1) {
         // If line exists, update it in place
@@ -57,7 +57,7 @@ const PriceListRow: React.FC<PriceListRowProps> = ({
     });
   };
 
-  const handleQtyChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleQtyChange = (e: { target: { value: string } }): void => {
     const typed = parseInt(e.target.value, 10) || 0;
     setAndSaveQty(typed);
   };
@@ -76,10 +76,10 @@ const PriceListRow: React.FC<PriceListRowProps> = ({
   };
 
   const handleUsePalletChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: { target: { checked: boolean } }
   ): void => {
     const newUsePallet = e.target.checked;
-    setPalletCheckMap((prev) => ({ ...prev, [product.SKU]: newUsePallet }));
+    setPalletCheckMap((prev: Record<string, boolean>) => ({ ...prev, [product.SKU]: newUsePallet }));
     if (newUsePallet) {
       const pallet = Number(product["Colli per pallet"]) || 0;
       const qtyNum = parseInt(localQty, 10) || 0;
@@ -203,14 +203,10 @@ const PriceListRow: React.FC<PriceListRowProps> = ({
       {/* PACKAGING */}
       <div className="cell left header-verpakking">
         <div className="packaging-block">
-          <p
-            className="packaging-main"
-            dangerouslySetInnerHTML={{
-              __html: typeof product.Colli === 'string' && product.Colli.includes("@")
-                ? product.Colli.replace("@", "@<br/>")
-                : product.Colli || "",
-            }}
-          ></p>
+          <p className="packaging-main">
+            {/* Temporary display until we fix the @ replacement */}
+            {product?.Colli || ""}
+          </p>
         </div>
       </div>
 
