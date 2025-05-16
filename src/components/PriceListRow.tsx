@@ -90,7 +90,6 @@ const PriceListRow = ({
 
   const origin = product["Origin of product"];
   const iso = flagMapping[origin]?.toUpperCase();
-  const flagUrl = iso ? `https://flagsapi.com/${iso}/flat/24.png` : undefined;
   const unitPrice = Number(product["Price unit price"]);
   const orderUnitPrice = Number(product["Order unit price"]);
   const discount = Number(product["Discount %"] || 0);

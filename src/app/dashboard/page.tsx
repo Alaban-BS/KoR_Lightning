@@ -31,7 +31,7 @@ const flagMapping: Record<string, string> = {
 };
 
 // Mock stock data (replace with actual stock data when available)
-const mockStockData = (customerPricing as Product[]).map((product) => ({
+const mockStockData = (customerPricing as unknown as Product[]).map((product) => ({
   SKU: product.SKU,
   'Qty Available': Math.floor(Math.random() * 100),
   'Lead Time (days)': Math.floor(Math.random() * 15)

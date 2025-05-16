@@ -14,7 +14,7 @@ interface Pricing {
   savedAmount: number;
 }
 
-interface Props {
+interface OrderLineItemProps {
   line: OrderLine;
   product: Product;
   pricing: Pricing;
@@ -31,7 +31,7 @@ const OrderLineItem = ({
   volume,
   weight,
   onRemove,
-}: Props) => {
+}: OrderLineItemProps) => {
   const { t } = useTranslation();
 
   return (
