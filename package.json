@@ -50,7 +50,8 @@
     "lint": "next lint",
     "clean": "rimraf .next node_modules",
     "reinstall": "npm run clean && npm install",
-    "vercel-build": "next build"
+    "vercel-build": "next build",
+    "auto-commit": "node scripts/auto-commit.js"
   },
   "browserslist": [
     ">0.2%",

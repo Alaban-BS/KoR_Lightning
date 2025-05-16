@@ -1,4 +1,5 @@
 /// <reference types="react" />
+/// <reference types="react-dom" />
 
 declare module 'react' {
   export * from '@types/react';
@@ -22,4 +23,10 @@ declare module 'react' {
 declare module 'react-i18next' {
   export * from '@types/react-i18next';
   export const useTranslation: typeof import('@types/react-i18next').useTranslation;
+}
+
+declare namespace JSX {
+  interface IntrinsicElements {
+    [elemName: string]: any;
+  }
 } 

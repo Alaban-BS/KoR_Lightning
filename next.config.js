@@ -44,6 +44,7 @@ const nextConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': require('path').resolve(__dirname, 'src'),
+      'react/jsx-runtime': require.resolve('react/jsx-runtime'),
     };
 
     return config;

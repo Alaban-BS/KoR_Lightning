@@ -25,7 +25,9 @@
     "baseUrl": ".",
     "typeRoots": ["./node_modules/@types", "./src/types"],
     "types": ["react", "react-dom", "node"],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "jsxImportSource": "react",
+    "jsx": "react-jsx"
   },
   "include": [
     "next-env.d.ts",
