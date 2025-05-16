@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { Box, Button } from '@mui/material';
 import { Header } from './components/Header';
 import PriceList from './components/PriceList';
@@ -124,11 +124,10 @@ const MainContent = () => {
   );
 };
 
-const App: React.FC = () => {
+const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
     localStorage.getItem("authenticated") === "true"
   );
-  const navigate = useNavigate();
 
   useEffect(() => {
     const checkAuth = () => {

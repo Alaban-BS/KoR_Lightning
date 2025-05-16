@@ -24,49 +24,15 @@ interface Props {
 }
 
 /* ——— component ——— */
-const OrderLineItem: React.FC<Props> = ({
+const OrderLineItem = ({
   line,
   product,
   pricing,
   volume,
   weight,
   onRemove,
-}) => {
-  const { t: translate } = useTranslation();
-
-  const basePrice = pricing.basePrice;
-  const normalDiscount = Number(product["Discount %"]) || 0;
-  const colliDiscount = Number(product["Colli discount"]) || 0;
-  const colliPerPallet = Number(product["Colli per pallet"]) || 0;
-
-  const isFullPalletQty = colliPerPallet > 0 && line.qty % colliPerPallet === 0;
-
-  const hasNormalDiscount = normalDiscount > 0;
-  const hasColliDiscount = colliDiscount > 0 && isFullPalletQty;
-
-  const customerPrice = hasNormalDiscount
-    ? basePrice * (1 - normalDiscount / 100)
-    : null;
-
-  const palletPrice =
-    hasColliDiscount && customerPrice !== null
-      ? customerPrice * (1 - colliDiscount / 100)
-      : hasColliDiscount
-      ? basePrice * (1 - colliDiscount / 100)
-      : null;
-
-  const finalPrice: "base" | "customer" | "pallet" = hasColliDiscount
-    ? "pallet"
-    : hasNormalDiscount
-    ? "customer"
-    : "base";
-
-  const finalUnitPrice =
-    finalPrice === "pallet"
-      ? palletPrice!
-      : finalPrice === "customer"
-      ? customerPrice!
-      : basePrice;
+}: Props) => {
+  const { t } = useTranslation();
 
   return (
     <div className="order-line">
