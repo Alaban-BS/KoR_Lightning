@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['localhost', 'vercel.app'],
+    domains: ['localhost', 'vercel.app', 'flagcdn.com'],
     unoptimized: process.env.NODE_ENV === 'development',
     formats: ['image/avif', 'image/webp'],
   },
@@ -85,6 +85,8 @@ const nextConfig = {
   // Add experimental features
   experimental: {
     scrollRestoration: true,
+    optimizeCss: true,
+    optimizePackageImports: ['@mui/material', '@mui/icons-material'],
   },
   // Configure i18n
   i18n: {
@@ -95,6 +97,10 @@ const nextConfig = {
   env: {
     PORT: process.env.PORT || '3000',
   },
+  // Add output configuration
+  output: 'standalone',
+  // Add trailing slashes
+  trailingSlash: true,
 };
 
 module.exports = nextConfig; 
