@@ -46,8 +46,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "clean": "rm -rf .next node_modules",
-    "reinstall": "npm run clean && npm install"
+    "clean": "rimraf .next node_modules",
+    "reinstall": "npm run clean && npm install",
+    "vercel-build": "next build"
   },
   "browserslist": [
     ">0.2%",

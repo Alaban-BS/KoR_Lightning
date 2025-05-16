@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['localhost'],
+    domains: ['localhost', 'vercel.app'],
     unoptimized: process.env.NODE_ENV === 'development',
     formats: ['image/avif', 'image/webp'],
   },
@@ -13,7 +13,7 @@ const nextConfig = {
       config.optimization.splitChunks = {
         chunks: 'all',
         minSize: 20000,
-        maxSize: 244000,
+        maxSize: 500000,
         minChunks: 1,
         maxAsyncRequests: 30,
         maxInitialRequests: 30,
@@ -83,9 +83,7 @@ const nextConfig = {
   },
   // Add experimental features
   experimental: {
-    optimizeCss: true,
     scrollRestoration: true,
-    serverComponentsExternalPackages: ['@mui/material'],
   },
   // Configure i18n
   i18n: {

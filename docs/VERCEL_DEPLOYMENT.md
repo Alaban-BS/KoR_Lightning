@@ -103,6 +103,15 @@ Key dependencies are locked to specific versions:
    - Verify all required environment variables are set
    - Ensure all dependencies are properly listed in `package.json`
 
+4. **Image Optimization Issues**
+   - Verify image domains in `next.config.js` include 'vercel.app'
+   - Check if images are properly optimized for production
+
+5. **Bundle Size Issues**
+   - Monitor chunk sizes in build logs
+   - Adjust webpack configuration if chunks are too large
+   - Check for unnecessary dependencies
+
 ### Build Log Analysis
 
 When reviewing build logs, look for:
@@ -111,6 +120,8 @@ When reviewing build logs, look for:
 3. Next.js build completion
 4. No TypeScript errors
 5. No missing dependencies
+6. Bundle size warnings
+7. Image optimization status
 
 ## Best Practices
 
@@ -128,6 +139,13 @@ When reviewing build logs, look for:
    - Use Next.js production build
    - Enable caching where possible
    - Monitor build times and optimize if needed
+   - Keep experimental features to a minimum
+
+4. **Performance**
+   - Monitor bundle sizes
+   - Optimize images
+   - Use proper caching strategies
+   - Implement code splitting
 
 ## Monitoring
 
@@ -136,6 +154,8 @@ After deployment:
 2. Verify all features work in production
 3. Monitor build logs for any warnings
 4. Check performance metrics in Vercel dashboard
+5. Verify image loading and optimization
+6. Test all routes and API endpoints
 
 ## Support
 
@@ -143,4 +163,5 @@ If you encounter issues:
 1. Check Vercel's [documentation](https://vercel.com/docs)
 2. Review build logs in detail
 3. Verify all configuration files
-4. Contact Vercel support if needed 
+4. Contact Vercel support if needed
+5. Check Next.js GitHub issues for known problems 
