@@ -32,9 +32,7 @@ const OrderLineItem: React.FC<Props> = ({
   weight,
   onRemove,
 }) => {
-  const { t } = useTranslation() as {
-    t: (key: string, options?: any) => string;
-  };
+  const { t: translate } = useTranslation();
 
   const basePrice = pricing.basePrice;
   const normalDiscount = Number(product["Discount %"]) || 0;
@@ -69,18 +67,6 @@ const OrderLineItem: React.FC<Props> = ({
       : finalPrice === "customer"
       ? customerPrice!
       : basePrice;
-
-  const totalSavings = basePrice * line.qty - finalUnitPrice * line.qty;
-
-  const promoSavings =
-    hasNormalDiscount && customerPrice !== null
-      ? (basePrice - customerPrice) * line.qty
-      : 0;
-
-  const palletSavings =
-    hasColliDiscount && palletPrice !== null
-      ? ((customerPrice || basePrice) - palletPrice) * line.qty
-      : 0;
 
   return (
     <div className="order-line">

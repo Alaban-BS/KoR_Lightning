@@ -1,5 +1,9 @@
-import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom/client";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import './index.css';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n';
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,19 +11,8 @@ import {
   Navigate,
 } from "react-router-dom";
 import Login from "./components/Login";
-import PriceList from "./components/PriceList";
-import Order from "./components/Order";
-import TitleBar from "./components/TitleBar";
-import OrderManagement from "./components/OrderManagement";
 import "./styles/App.css";
-import "./styles/PriceList.css";
-import "./styles/Order.css";
 import "./styles/Login.css";
-import "./i18n";
-import { Product, OrderLine, FlagItem } from "./types";
-import { useTranslation } from "react-i18next";
-import { orderService } from "./services/orderService";
-import App from './App';
 import { ThemeProvider } from './theme/ThemeProvider';
 
 const Root = () => {

@@ -59,7 +59,7 @@ function OrderManagement({
       loadOrders();
       onLoadOrder(currentOrderLines, newOrderId);
     }
-  }, [currentOrderLines, orders.length]);
+  }, [currentOrderLines, orders.length, onLoadOrder]);
 
   // Update edited name when current order changes
   useEffect(() => {

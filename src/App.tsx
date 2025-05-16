@@ -18,7 +18,7 @@ import { useOrderManagement } from './hooks/useOrderManagement';
  * - Order List (40% of main content)
  * - Order Button (5%)
  */
-const MainContent: React.FC = () => {
+const MainContent = () => {
   const { t } = useTranslation();
   const {
     orderLines,
