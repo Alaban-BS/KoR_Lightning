@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState, ReactNode } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import "../styles/Order.css";
 import { Product, OrderLine } from "../types";
 import { useTranslation } from "react-i18next";

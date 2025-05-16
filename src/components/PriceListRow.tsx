@@ -3,6 +3,13 @@ import { useTranslation } from "react-i18next";
 import { Product, OrderLine, FlagItem } from "../types";
 import { roundQtyToPallet } from "../components/priceListUtils";
 import Image from 'next/image';
+import type { TFunction } from "i18next";
+
+interface StockItem {
+  SKU: string;
+  "Qty Available": number;
+  "Lead Time (days)": number;
+}
 
 type PriceListRowProps = {
   product: Product;
@@ -12,7 +19,7 @@ type PriceListRowProps = {
   palletCheckMap: Record<string, boolean>;
   setPalletCheckMap: (value: Record<string, boolean> | ((prevState: Record<string, boolean>) => Record<string, boolean>)) => void;
   style: { [key: string]: string | number };
-  stockData: any[];
+  stockData: StockItem[];
 };
 
 const PriceListRow = ({
@@ -25,9 +32,7 @@ const PriceListRow = ({
   style,
   stockData,
 }: PriceListRowProps) => {
-  const { t } = useTranslation() as {
-    t: (key: string, options?: any) => string;
-  };
+  const { t } = useTranslation() as { t: TFunction };
   const existingLine = orderLines.find((item: OrderLine) => item.SKU === product.SKU);
   const [localQty, setLocalQty] = useState<string>(
     existingLine ? existingLine.qty.toString() : "0"
@@ -92,7 +97,7 @@ const PriceListRow = ({
   const displayPrice = discount > 0 ? unitPrice * (1 - discount / 100) : unitPrice;
   const displayOrderPrice = discount > 0 ? orderUnitPrice * (1 - discount / 100) : orderUnitPrice;
   const colliPerPallet = Number(product["Colli per pallet"]) || 0;
-  const stockItem = stockData.find((item: any) => item.SKU === product.SKU);
+  const stockItem = stockData.find((item: StockItem) => item.SKU === product.SKU);
   const qtyAvailable = stockItem?.["Qty Available"] || 0;
   const leadTime = stockItem?.["Lead Time (days)"] || 0;
   const stockStatus = qtyAvailable === 0 ? (leadTime < 16 ? "orange" : "red") : "green";
