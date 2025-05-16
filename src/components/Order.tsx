@@ -8,15 +8,15 @@ interface OrderProps {
   orderLines: OrderLine[];
   productData: Product[];
   onRemoveLine: (sku: string) => void;
-  orderManagement: React.ReactNode;
+  orderManagement?: React.ReactNode;
 }
 
-const Order: React.FC<OrderProps> = ({
+const Order = ({
   orderLines,
   productData,
   onRemoveLine,
-  orderManagement,
-}) => {
+  orderManagement
+}: OrderProps) => {
   const { t } = useTranslation() as {
     t: (key: string, options?: any) => string;
   };
@@ -121,10 +121,6 @@ const Order: React.FC<OrderProps> = ({
       setRemovingSKU(null);
       onRemoveLine(sku);
     }, 300);
-  };
-
-  const handleHighlight = (sku: string) => {
-    setHighlightSKU(sku);
   };
 
   return (

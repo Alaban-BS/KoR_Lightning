@@ -11,25 +11,6 @@ interface OrderManagementProps {
   onNewOrder: () => void;
 }
 
-// Custom hook for handling the auto-show dialog timer
-const useAutoShowDialog = (
-  shouldShow: boolean,
-  delay: number,
-  onShow: () => void
-) => {
-  useEffect(() => {
-    if (!shouldShow) return;
-
-    const timeoutId = setTimeout(() => {
-      onShow();
-    }, delay);
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [shouldShow, delay, onShow]);
-};
-
 function OrderManagement({
   currentOrderId,
   currentOrderLines,

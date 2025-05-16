@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import OrderManagement from '@/components/OrderManagement';
 import PriceList from '@/components/PriceList';
 import Order from '@/components/Order';

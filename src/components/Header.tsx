@@ -16,7 +16,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
-export const Header: React.FC = () => {
+export const Header = () => {
   const theme = useMuiTheme();
   const router = useRouter();
   const { t } = useTranslation();
