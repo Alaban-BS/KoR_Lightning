@@ -1,33 +1,18 @@
 {
-  "name": "React TypeScript Development",
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-18-bullseye",
+  "name": "Next.js Development",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
   "features": {
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "18"
-    }
+    "ghcr.io/devcontainers/features/github-cli:1": {}
   },
-  "forwardPorts": [5173],
-  "postCreateCommand": "pnpm install",
+  "forwardPorts": [3000],
+  "postCreateCommand": "npm install",
   "customizations": {
     "vscode": {
       "extensions": [
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
-        "bradlc.vscode-tailwindcss",
-        "ms-vscode.vscode-typescript-next",
-        "formulahendry.auto-rename-tag",
-        "christian-kohler.path-intellisense",
-        "streetsidesoftware.code-spell-checker"
-      ],
-      "settings": {
-        "editor.formatOnSave": true,
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.codeActionsOnSave": {
-          "source.fixAll.eslint": true
-        },
-        "typescript.tsdk": "node_modules/typescript/lib"
-      }
+        "ms-vscode.vscode-typescript-next"
+      ]
     }
-  },
-  "remoteUser": "node"
+  }
 } 
