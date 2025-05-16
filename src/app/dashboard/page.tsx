@@ -1,36 +1,41 @@
 'use client';
 
-import { useState } from 'react';
-import { Box } from '@mui/material';
+import { useState, useEffect } from 'react';
 import OrderManagement from '@/components/OrderManagement';
 import PriceList from '@/components/PriceList';
 import Order from '@/components/Order';
 import { SavedOrder } from '@/services/orderService';
 import { Product, OrderLine } from '@/types';
+import '@/styles/Dashboard.css';
 
-// Mock data for products
-const mockProducts: Product[] = [
-  {
-    SKU: 'P1',
-    Name: 'Product 1',
-    'Order unit price': '10.99',
-    'Discount %': '0',
-    'Colli discount': '0',
-    'Colli per pallet': '0',
-    M3: '0.1',
-    Weight_KG: '1',
-  },
-  {
-    SKU: 'P2',
-    Name: 'Product 2',
-    'Order unit price': '15.99',
-    'Discount %': '5',
-    'Colli discount': '0',
-    'Colli per pallet': '0',
-    M3: '0.2',
-    Weight_KG: '2',
-  },
-];
+// Import customer pricing data
+import customerPricing from '../../../public/CustomerPricing.json';
+
+// Flag mapping for country flags
+const flagMapping: Record<string, string> = {
+  'Germany': 'de',
+  'The Netherlands': 'nl',
+  'France': 'fr',
+  'Italy': 'it',
+  'Spain': 'es',
+  'United Kingdom': 'gb',
+  'United States of America': 'us',
+  'Turkey': 'tr',
+  'Greece': 'gr',
+  'Hungary': 'hu',
+  'Colombia': 'co',
+  'Panama': 'pa',
+  'Armenia': 'am',
+  'Belgium': 'be',
+  'Poland': 'pl'
+};
+
+// Mock stock data (replace with actual stock data when available)
+const mockStockData = (customerPricing as Product[]).map((product) => ({
+  SKU: product.SKU,
+  'Qty Available': Math.floor(Math.random() * 100),
+  'Lead Time (days)': Math.floor(Math.random() * 15)
+}));
 
 export default function DashboardPage() {
   const [currentOrderId, setCurrentOrderId] = useState<string | null>(null);
@@ -51,40 +56,63 @@ export default function DashboardPage() {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', p: 2, gap: 2 }}>
-      {/* Price List - Top Section */}
-      <Box sx={{ flex: '0 0 40%', minHeight: 0 }}>
-        <PriceList
-          productData={mockProducts}
-          orderLines={currentOrderLines}
-          setOrderLines={setCurrentOrderLines}
-          flagMapping={{}}
-          stockData={[]}
-        />
-      </Box>
+    <div className="dashboard-container">
+      <div className="dashboard-content">
+        {/* Price List Section */}
+        <div className="price-list-section">
+          <div className="price-list-header">
+            <h2>Product Catalog</h2>
+          </div>
+          <div className="price-list-content">
+            <PriceList
+              productData={customerPricing as Product[]}
+              orderLines={currentOrderLines}
+              setOrderLines={setCurrentOrderLines}
+              flagMapping={flagMapping}
+              stockData={mockStockData}
+            />
+          </div>
+        </div>
 
-      {/* Order Management and Order Form - Bottom Section */}
-      <Box sx={{ flex: '0 0 60%', minHeight: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <OrderManagement
-          currentOrderId={currentOrderId}
-          currentOrderLines={currentOrderLines}
-          onLoadOrder={handleLoadOrder}
-          onNewOrder={handleNewOrder}
-        />
-        <Order
-          orderLines={currentOrderLines}
-          productData={mockProducts}
-          onRemoveLine={handleRemoveLine}
-          orderManagement={
+        {/* Order Section */}
+        <div className="order-section">
+          <div className="order-header">
+            <h2>Current Order</h2>
+          </div>
+          <div className="order-content">
             <OrderManagement
               currentOrderId={currentOrderId}
               currentOrderLines={currentOrderLines}
               onLoadOrder={handleLoadOrder}
               onNewOrder={handleNewOrder}
             />
-          }
-        />
-      </Box>
-    </Box>
+            <Order
+              orderLines={currentOrderLines}
+              productData={customerPricing as Product[]}
+              onRemoveLine={handleRemoveLine}
+              orderManagement={
+                <OrderManagement
+                  currentOrderId={currentOrderId}
+                  currentOrderLines={currentOrderLines}
+                  onLoadOrder={handleLoadOrder}
+                  onNewOrder={handleNewOrder}
+                />
+              }
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Submit Button Section */}
+      <div className="submit-section">
+        <button 
+          className="submit-button"
+          disabled={currentOrderLines.length === 0}
+          onClick={() => {/* Handle order submission */}}
+        >
+          Submit Order
+        </button>
+      </div>
+    </div>
   );
 } 

@@ -1,0 +1,25 @@
+{
+  "orderManagement": {
+    "title": "Orderbeheer",
+    "newOrder": "Nieuwe order",
+    "createNewOrder": "Nieuwe order aanmaken",
+    "orderName": "Ordernaam",
+    "nameRequired": "Naam is verplicht",
+    "nameDuplicate": "Deze naam bestaat al",
+    "empty": "Geen opgeslagen orders",
+    "items": "items",
+    "editName": "Naam bewerken",
+    "delete": "Verwijderen",
+    "savedOrders": "Opgeslagen orders",
+    "noSavedOrders": "Geen opgeslagen orders",
+    "emptyOrderMessage": "Geen actieve order",
+    "cancel": "Annuleren",
+    "create": "Aanmaken",
+    "duplicateOrder": "Huidige order dupliceren"
+  },
+  "orderNameRequired": "Ordernaam is verplicht",
+  "errorCreatingOrder": "Fout bij aanmaken order",
+  "enterOrderName": "Voer ordernaam in",
+  "load": "Laden",
+  "delete": "Verwijderen"
+} 

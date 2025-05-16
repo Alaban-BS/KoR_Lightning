@@ -36,11 +36,9 @@ const PriceListRow = ({
   const setAndSaveQty = (newValue: number): void => {
     setLocalQty(newValue.toString());
     setOrderLines((prev: OrderLine[]) => {
-      // Find the index of the existing line
       const existingIndex = prev.findIndex((line: OrderLine) => line.SKU === product.SKU);
       
       if (existingIndex !== -1) {
-        // If line exists, update it in place
         const newLines = [...prev];
         if (newValue > 0) {
           newLines[existingIndex] = { SKU: product.SKU, qty: newValue };
@@ -49,7 +47,6 @@ const PriceListRow = ({
         }
         return newLines;
       } else if (newValue > 0) {
-        // If it's a new line, add it to the end
         return [...prev, { SKU: product.SKU, qty: newValue }];
       }
       
@@ -75,9 +72,7 @@ const PriceListRow = ({
     setAndSaveQty(Math.max(0, current - (usePallet ? pallet : 1)));
   };
 
-  const handleUsePalletChange = (
-    e: { target: { checked: boolean } }
-  ): void => {
+  const handleUsePalletChange = (e: { target: { checked: boolean } }): void => {
     const newUsePallet = e.target.checked;
     setPalletCheckMap((prev: Record<string, boolean>) => ({ ...prev, [product.SKU]: newUsePallet }));
     if (newUsePallet) {
@@ -93,20 +88,17 @@ const PriceListRow = ({
   const unitPrice = Number(product["Price unit price"]);
   const orderUnitPrice = Number(product["Order unit price"]);
   const discount = Number(product["Discount %"] || 0);
-  const displayPrice =
-    discount > 0 ? unitPrice * (1 - discount / 100) : unitPrice;
-  const displayOrderPrice =
-    discount > 0 ? orderUnitPrice * (1 - discount / 100) : orderUnitPrice;
+  const displayPrice = discount > 0 ? unitPrice * (1 - discount / 100) : unitPrice;
+  const displayOrderPrice = discount > 0 ? orderUnitPrice * (1 - discount / 100) : orderUnitPrice;
   const colliPerPallet = Number(product["Colli per pallet"]) || 0;
   const stockItem = stockData.find((item: any) => item.SKU === product.SKU);
   const qtyAvailable = stockItem?.["Qty Available"] || 0;
   const leadTime = stockItem?.["Lead Time (days)"] || 0;
-  let stockStatus =
-    qtyAvailable === 0 ? (leadTime < 16 ? "orange" : "red") : "green";
+  let stockStatus = qtyAvailable === 0 ? (leadTime < 16 ? "orange" : "red") : "green";
 
   return (
     <div className="table-row" style={style}>
-      {/* PRODUCT NAME & SKU */}
+      {/* Product Name & SKU */}
       <div className="cell left header-product">
         <div className="product-info">
           <span className="product-name">{product.Name}</span>
@@ -114,24 +106,18 @@ const PriceListRow = ({
         </div>
       </div>
 
-      {/* PRICE */}
+      {/* Price */}
       <div className="cell right header-prijs">
         <div className="price-block">
           <div className="price-container">
             <div className="price-line">
               {discount > 0 ? (
                 <>
-                  <span className="old-price">
-                    € {orderUnitPrice.toFixed(2)}
-                  </span>
-                  <span className="new-price">
-                    € {displayOrderPrice.toFixed(2)}
-                  </span>
+                  <span className="old-price">€ {orderUnitPrice.toFixed(2)}</span>
+                  <span className="new-price">€ {displayOrderPrice.toFixed(2)}</span>
                 </>
               ) : (
-                <span className="price-value">
-                  € {orderUnitPrice.toFixed(2)}
-                </span>
+                <span className="price-value">€ {orderUnitPrice.toFixed(2)}</span>
               )}
             </div>
             <span className="subtext order-unit">{product["order unit"]}</span>
@@ -139,21 +125,26 @@ const PriceListRow = ({
         </div>
       </div>
 
-      {/* STOCK STATUS */}
+      {/* Stock Status */}
       <div className="cell header-stock">
         <span
           className={`stock-circle ${stockStatus}`}
-          title={`${t("priceList.header.stock", {
-            defaultValue: "Stock",
-          })}: ${qtyAvailable}, ${t("priceList.header.leadTime", {
-            defaultValue: "Lead time",
-          })}: ${leadTime} ${t("priceList.header.days", {
-            defaultValue: "days",
-          })}`}
-        ></span>
+          title={`${t("priceList.header.stock", { defaultValue: "Stock" })}: ${qtyAvailable}, ${t("priceList.header.leadTime", { defaultValue: "Lead time" })}: ${leadTime} ${t("priceList.header.days", { defaultValue: "days" })}`}
+        >
+          {stockStatus === 'green' ? '✓' : stockStatus === 'orange' ? '!' : '×'}
+          <div className="stock-tooltip">
+            {stockStatus === 'green' ? (
+              `${qtyAvailable} ${t("priceList.stock.available", { defaultValue: "available" })}`
+            ) : stockStatus === 'orange' ? (
+              `${t("priceList.stock.lowStock", { defaultValue: "Low stock" })} (${qtyAvailable}), ${leadTime} ${t("priceList.stock.daysToRestock", { defaultValue: "days to restock" })}`
+            ) : (
+              `${t("priceList.stock.outOfStock", { defaultValue: "Out of stock" })}, ${leadTime} ${t("priceList.stock.daysToRestock", { defaultValue: "days to restock" })}`
+            )}
+          </div>
+        </span>
       </div>
 
-      {/* ORIGIN / FLAG */}
+      {/* Origin / Flag */}
       <div className="cell header-herkomst">
         {flagUrl ? (
           <img src={flagUrl} alt={origin} title={origin} className="flag-img" />
@@ -162,7 +153,7 @@ const PriceListRow = ({
         )}
       </div>
 
-      {/* CATEGORY */}
+      {/* Category */}
       <div className="cell left header-categorie">
         <div className="category-block">
           <p className="category">{product["Product Category"]}</p>
@@ -170,37 +161,23 @@ const PriceListRow = ({
         </div>
       </div>
 
-      {/* ORDER AMOUNT */}
+      {/* Order Amount */}
       <div className="cell header-bestel">
         <div className="quantity-controls">
-          <button
-            type="button"
-            className="quantity-button"
-            onClick={handleDecrement}
-          >
-            −
-          </button>
+          <button type="button" className="quantity-button" onClick={handleDecrement}>−</button>
           <input
             type="number"
             className="quantity-input"
-            placeholder={t("priceList.quantityPlaceholder", {
-              defaultValue: "quantity",
-            })}
+            placeholder={t("priceList.quantityPlaceholder", { defaultValue: "quantity" })}
             value={localQty}
             onChange={handleQtyChange}
             disabled={usePallet}
           />
-          <button
-            type="button"
-            className="quantity-button"
-            onClick={handleIncrement}
-          >
-            +
-          </button>
+          <button type="button" className="quantity-button" onClick={handleIncrement}>+</button>
         </div>
       </div>
 
-      {/* PACKAGING */}
+      {/* Packaging */}
       <div className="cell left header-verpakking">
         <div className="packaging-block">
           <p
@@ -216,7 +193,7 @@ const PriceListRow = ({
         </div>
       </div>
 
-      {/* PRICE PER PACKAGING */}
+      {/* Price per Packaging */}
       <div className="cell right header-prijs-verpakking">
         <div className="price-block">
           <div className="price-container">
@@ -235,7 +212,7 @@ const PriceListRow = ({
         </div>
       </div>
 
-      {/* #/PALLET + CHECKBOX */}
+      {/* #/Pallet + Checkbox */}
       <div className="cell right header-palletaantal">
         <div className="pallet-block">
           <div className="pallet-top-row">
@@ -253,8 +230,7 @@ const PriceListRow = ({
               <div
                 className="discount-info"
                 title={t("priceList.discountTooltip", {
-                  defaultValue:
-                    "We reduce logistics costs when you order exact pallet quantities—and you benefit from that saving.",
+                  defaultValue: "We reduce logistics costs when you order exact pallet quantities—and you benefit from that saving.",
                 })}
               >
                 − {discount}%
@@ -264,15 +240,11 @@ const PriceListRow = ({
         </div>
       </div>
 
-      {/* VOLUME & WEIGHT */}
+      {/* Volume & Weight */}
       <div className="cell right header-volume-en-gewicht">
-        <div className="volume-block">
-          <p className="volume">
-            {product.M3} {t("priceList.volumeUnit", { defaultValue: "m³" })}
-          </p>
-          <span className="subtext weight">
-            {product.Weight_KG} {t("priceList.weightUnit", { defaultValue: "kg" })}
-          </span>
+        <div className="volume-weight">
+          <span className="volume">{product.M3} m³</span>
+          <span className="weight">{product.Weight_KG} kg</span>
         </div>
       </div>
     </div>

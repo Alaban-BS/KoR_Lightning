@@ -1,3 +1,35 @@
+/* Root variables */
+:root {
+  --primary-blue: #007bff;
+  --primary-blue-dark: #0056b3;
+  --primary-blue-darker: #004494;
+  --danger: #d9534f;
+  --danger-bg: #ffe9e8;
+  --muted-text: #555;
+  --muted-border: #ddd;
+  --success-main: #4caf50;
+  --warning-main: #ff9800;
+  --error-main: #f44336;
+  --background-paper: #ffffff;
+  --background-default: #f5f5f5;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --divider: #e0e0e0;
+  --action-hover: rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --cell-padding: 8px 12px;
+}
+
 /*─────────────────────────────────────────────────────────────
   ORDER - MAIN WRAPPER
 ─────────────────────────────────────────────────────────────*/
@@ -5,54 +37,56 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: var(--mui-palette-background-paper);
-  border-left: 1px solid var(--mui-palette-divider);
-  width: 99%;
+  background-color: var(--background-paper);
+  border: 1px solid var(--divider);
+  width: 100%;
   margin: 0 auto;
-  border-radius: 12px;
-  box-shadow: var(--mui-shadows-1);
-  padding: 16px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-md);
   box-sizing: border-box;
   overflow: hidden;
-  min-height: 600px; /* prevents layout jumping */
+  min-height: 600px;
 }
 
 /*─────────────────────────────────────────────────────────────
   ORDER HEADER
 ─────────────────────────────────────────────────────────────*/
 .order-header {
-  background-color: var(--mui-palette-background-default);
-  border-bottom: 1px solid var(--mui-palette-divider);
-  margin: -16px -16px 16px -16px;
-  padding: 12px 16px;
+  background-color: var(--background-default);
+  border-bottom: 1px solid var(--divider);
+  margin: calc(-1 * var(--spacing-md));
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .order-header-content {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: var(--spacing-lg);
   height: 36px;
 }
 
 .order-management {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--spacing-md);
   flex: 1;
 }
 
 .order-management-buttons {
   display: flex;
-  gap: 12px;
+  gap: var(--spacing-md);
   align-items: center;
 }
 
 .order-volume-weight-totals {
   display: flex;
-  gap: 16px;
+  gap: var(--spacing-md);
   align-items: center;
-  padding-left: 16px;
-  border-left: 1px solid var(--mui-palette-divider);
+  padding-left: var(--spacing-md);
+  border-left: 1px solid var(--divider);
   margin-left: auto;
   justify-content: flex-end;
 }
@@ -60,12 +94,13 @@
 .order-volume-weight-totals p {
   margin: 0;
   font-size: 0.9em;
-  color: var(--mui-palette-text-secondary);
+  color: var(--text-secondary);
   white-space: nowrap;
 }
 
 .order-volume-weight-totals strong {
-  color: var(--mui-palette-text-primary);
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 /*─────────────────────────────────────────────────────────────
@@ -91,13 +126,13 @@
 .order-total-line {
   font-size: 1rem;
   font-weight: bold;
-  color: var(--mui-palette-text-primary);
+  color: var(--text-primary);
 }
 
 .order-total-amount {
   font-size: 1.1rem;
   font-weight: bold;
-  color: var(--mui-palette-primary-main);
+  color: var(--primary-blue);
 }
 
 /*─────────────────────────────────────────────────────────────
@@ -105,9 +140,12 @@
 ─────────────────────────────────────────────────────────────*/
 .order-empty-message {
   text-align: center;
-  color: var(--mui-palette-text-disabled);
+  color: var(--text-secondary);
   font-style: italic;
-  padding: 16px 0;
+  padding: var(--spacing-xl) 0;
+  background-color: var(--background-default);
+  border-radius: var(--radius-md);
+  margin: var(--spacing-md) 0;
 }
 
 /*─────────────────────────────────────────────────────────────
@@ -116,68 +154,153 @@
 .order-lines {
   flex: 1;
   overflow-y: auto;
-  padding: 16px;
-  min-height: 400px; /* reserve space even when empty */
-  max-height: 400px; /* prevent unbounded growth       */
+  padding: var(--spacing-md);
+  min-height: 400px;
+  max-height: 600px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted-border) transparent;
+}
+
+.order-lines::-webkit-scrollbar {
+  width: 8px;
+}
+
+.order-lines::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.order-lines::-webkit-scrollbar-thumb {
+  background-color: var(--muted-border);
+  border-radius: var(--radius-sm);
 }
 
 .order-line {
   display: grid;
-  grid-template-columns: 1.5fr 0.5fr 1fr 1fr 1fr;
-  gap: 0.5rem;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto;
+  gap: var(--spacing-md);
   align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--mui-palette-divider);
+  padding: var(--cell-padding);
+  border-bottom: 1px solid var(--divider);
+  transition: all 0.2s ease;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--spacing-xs);
+}
+
+.order-line:hover {
+  background-color: var(--action-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .order-line:last-child {
   border-bottom: none;
-}
-
-.order-line-cell {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  margin-bottom: 0;
 }
 
 /* Product info */
-.product-info {
+.order-line-info {
+  display: flex;
   flex-direction: column;
+  gap: var(--spacing-xs);
+  min-width: 0;
 }
 
-.order-line-name {
-  font-weight: bold;
-  color: var(--mui-palette-text-primary);
+.order-line-info h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.order-line-sku {
+.order-line-info .sku {
   font-size: 0.85rem;
-  color: var(--mui-palette-text-secondary);
+  color: var(--text-secondary);
+  background-color: var(--background-default);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  display: inline-block;
 }
 
-/* Right-aligned numeric columns */
-.order-line-qty,
-.order-line-price,
-.order-line-total,
-.order-line-volume-weight {
-  text-align: right;
+/* Quantity controls */
+.quantity {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  justify-content: center;
 }
 
-/* Volume & weight stacked */
-.order-line-volume-weight {
+.quantity span {
+  font-weight: 600;
+  color: var(--text-primary);
+  min-width: 40px;
+  text-align: center;
+}
+
+/* Price display */
+.price {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  gap: var(--spacing-xs);
 }
 
-.order-line-volume-weight .volume {
-  margin: 0;
-  color: var(--mui-palette-text-primary);
+.price span {
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
-.order-line-volume-weight .weight {
+.price .discount {
   font-size: 0.85rem;
-  color: var(--mui-palette-text-secondary);
+  color: var(--success-main);
+  background-color: rgba(76, 175, 80, 0.1);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+/* Total amount */
+.total {
+  font-weight: 600;
+  color: var(--primary-blue);
+  text-align: right;
+}
+
+/* Volume and weight */
+.volume-weight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-xs);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* Remove button */
+.remove-button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  opacity: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.order-line:hover .remove-button {
+  opacity: 1;
+}
+
+.remove-button:hover {
+  color: var(--error-main);
+  background-color: var(--danger-bg);
 }
 
 /*─────────────────────────────────────────────────────────────
@@ -191,21 +314,21 @@
 
 .price-value {
   font-weight: 600;
-  color: var(--mui-palette-text-primary);
+  color: var(--text-primary);
 }
 
 .new-price {
   font-weight: 600;
-  color: var(--mui-palette-error-main);
+  color: var(--error-main);
 }
 
 .pallet-advantage,
 .discount-info {
-  background-color: var(--mui-palette-warning-light);
-  color: var(--mui-palette-warning-contrastText);
+  background-color: var(--warning-main);
+  color: white;
   font-weight: 600;
   padding: 2px 4px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 }
 
 .strike {
@@ -218,90 +341,80 @@
 }
 
 .total-savings-line {
-  margin-top: 4px;
+  margin-top: var(--spacing-xs);
   text-align: right;
   font-size: 0.85rem;
   font-weight: normal;
   white-space: nowrap;
-  color: var(--mui-palette-text-secondary);
+  color: var(--text-secondary);
 }
 
 .savings-label {
   font-weight: bold;
-  margin-right: 4px;
-  color: var(--mui-palette-text-primary);
+  margin-right: var(--spacing-xs);
+  color: var(--text-primary);
 }
 
 .savings-total {
   font-weight: bold;
-  color: var(--mui-palette-success-main);
+  color: var(--success-main);
 }
 
 .savings-breakdown {
   font-style: italic;
   font-size: 0.85rem;
-  color: var(--mui-palette-text-secondary);
+  color: var(--text-secondary);
 }
 
 .savings-promo {
-  background-color: var(--mui-palette-error-light);
-  color: var(--mui-palette-error-contrastText);
+  background-color: var(--error-main);
+  color: white;
   padding: 0 4px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   font-weight: 600;
 }
 
 .savings-pallet {
-  background-color: var(--mui-palette-warning-light);
-  color: var(--mui-palette-warning-contrastText);
+  background-color: var(--warning-main);
+  color: white;
   padding: 0 4px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   font-weight: 600;
 }
 
 .savings-plus {
   margin: 0 4px;
   font-weight: bold;
-  color: var(--mui-palette-text-primary);
+  color: var(--text-primary);
 }
 
 /*─────────────────────────────────────────────────────────────
   ANIMATIONS
 ─────────────────────────────────────────────────────────────*/
 .highlight-line {
-  animation: highlight-fade 0.6s ease-out;
+  animation: highlight-fade 1s ease-out;
 }
 
 @keyframes highlight-fade {
-  0% {
-    background-color: var(--mui-palette-primary-light);
-  }
-  100% {
-    background-color: transparent;
-  }
+  0% { background-color: rgba(76, 175, 80, 0.2); }
+  100% { background-color: transparent; }
 }
 
 .fade-out-line {
-  animation: fade-out 0.3s ease-out;
+  animation: fade-out 0.3s ease-out forwards;
 }
 
 @keyframes fade-out {
-  0% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(20px);
-  }
+  0% { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; transform: translateX(-20px); }
 }
 
 /*─────────────────────────────────────────────────────────────
   SUBMIT BUTTON
 ─────────────────────────────────────────────────────────────*/
 .submit-order-button {
-  background-color: var(--mui-palette-primary-main);
-  color: var(--mui-palette-primary-contrastText);
+  background-color: var(--primary-blue);
+  color: white;
   border: none;
   border-radius: 8px;
   padding: 12px 24px;
@@ -318,7 +431,7 @@
 }
 
 .submit-order-button:hover {
-  background-color: var(--mui-palette-primary-dark);
+  background-color: var(--primary-blue-dark);
 }
 
 .submit-order-button .order-total {
@@ -336,7 +449,7 @@
   REMOVE BUTTON
 ─────────────────────────────────────────────────────────────*/
 .remove-line-icon {
-  color: var(--mui-palette-error-main);
+  color: var(--error-main);
   opacity: 0;
   transition: opacity 0.2s;
   cursor: pointer;
@@ -351,8 +464,46 @@
 }
 
 .focus-line {
-  background-color: var(--mui-palette-action-hover);
+  background-color: var(--action-hover);
   border-radius: 4px;
   padding: 4px;
   margin: -4px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .order {
+    padding: var(--spacing-sm);
+  }
+
+  .order-header {
+    margin: calc(-1 * var(--spacing-sm));
+    margin-bottom: var(--spacing-sm);
+    padding: var(--spacing-sm);
+  }
+
+  .order-line {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm);
+  }
+
+  .order-line-info {
+    grid-column: 1 / -1;
+  }
+
+  .quantity,
+  .price,
+  .total,
+  .volume-weight {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .remove-button {
+    position: absolute;
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+    opacity: 1;
+  }
 }
