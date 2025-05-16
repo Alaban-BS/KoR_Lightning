@@ -32,8 +32,6 @@ const OrderLineItem = ({
   weight,
   onRemove,
 }: OrderLineItemProps) => {
-  const { t } = useTranslation();
-
   return (
     <div className="order-line">
       <div className="order-line-content">

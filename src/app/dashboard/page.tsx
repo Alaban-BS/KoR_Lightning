@@ -65,7 +65,7 @@ export default function DashboardPage() {
           </div>
           <div className="price-list-content">
             <PriceList
-              productData={customerPricing as Product[]}
+              productData={customerPricing as unknown as Product[]}
               orderLines={currentOrderLines}
               setOrderLines={setCurrentOrderLines}
               flagMapping={flagMapping}
