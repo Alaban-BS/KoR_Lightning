@@ -22,8 +22,8 @@ export const Header = () => {
   const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleMenu = (event: MouseEvent) => {
+    setAnchorEl(event.currentTarget as HTMLElement);
   };
 
   const handleClose = () => {

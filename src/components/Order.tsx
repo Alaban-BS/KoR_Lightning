@@ -1,14 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, ReactNode } from "react";
 import "../styles/Order.css";
 import { Product, OrderLine } from "../types";
 import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 import OrderLineItem from "./OrderLineItem";
 
 interface OrderProps {
   orderLines: OrderLine[];
   productData: Product[];
   onRemoveLine: (sku: string) => void;
-  orderManagement?: React.ReactNode;
+  orderManagement?: ReactNode;
 }
 
 const Order = ({
@@ -17,9 +18,7 @@ const Order = ({
   onRemoveLine,
   orderManagement
 }: OrderProps) => {
-  const { t } = useTranslation() as {
-    t: (key: string, options?: any) => string;
-  };
+  const { t } = useTranslation() as { t: TFunction };
 
   const orderListRef = useRef<HTMLDivElement>(null);
   const [highlightSKU, setHighlightSKU] = useState<string | null>(null);

@@ -3,20 +3,22 @@
 export interface Product {
   SKU: string;
   Name: string;
+  Description?: string;
   "Product Category": string;
   Subcategory?: string;
   Colli: string;
   "Price unit price": string | number;
   "Price Unit": string;
   "Currency (Code)": string;
-  "Order unit price": string | number;
+  "Order unit price": string;
   "order unit": string;
-  "Discount %": number | string;
-  "Colli per pallet"?: number | string;
-  "Colli discount"?: number | string;
+  "Discount %": string;
+  "Colli per pallet": string;
+  "Colli discount": string;
   "Origin of product": string;
-  M3: number | string;
-  Weight_KG: number | string;
+  M3: string;
+  Weight_KG: string;
+  Flags?: FlagItem[];
   // add other fields if needed
 }
 
@@ -26,6 +28,6 @@ export interface OrderLine {
 }
 
 export interface FlagItem {
-  origin: string;
-  iso: string;
+  Country: string;
+  // Add other flag-related properties if needed
 }

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Product, OrderLine } from "../types";
+import { Product, OrderLine, FlagItem } from "../types";
 import { roundQtyToPallet } from "../components/priceListUtils";
+import Image from 'next/image';
 
 type PriceListRowProps = {
   product: Product;
@@ -146,11 +147,20 @@ const PriceListRow = ({
 
       {/* Origin / Flag */}
       <div className="cell header-herkomst">
-        {flagUrl ? (
-          <img src={flagUrl} alt={origin} title={origin} className="flag-img" />
-        ) : (
-          origin
-        )}
+        {product.Flags?.map((flag: FlagItem) => {
+          const flagCode = flagMapping[flag.Country] || 'unknown';
+          return (
+            <div key={flag.Country} className="flag-item" title={flag.Country}>
+              <Image
+                src={`https://flagcdn.com/w20/${flagCode}.png`}
+                alt={`${flag.Country} flag`}
+                width={20}
+                height={15}
+                className="flag-image"
+              />
+            </div>
+          );
+        })}
       </div>
 
       {/* Category */}
