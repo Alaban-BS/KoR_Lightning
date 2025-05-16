@@ -15,7 +15,7 @@ interface OrderHeaderProps {
   isEditing: boolean;
   onEditClick: () => void;
   onSaveClick: () => void;
-  customers: Customer[];
+  date: string;
   totalVolume: number;
   totalWeight: number;
 }
@@ -28,7 +28,7 @@ const OrderHeader = ({
   isEditing,
   onEditClick,
   onSaveClick,
-  customers,
+  date,
   totalVolume,
   totalWeight,
 }: OrderHeaderProps) => {
