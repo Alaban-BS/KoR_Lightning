@@ -206,9 +206,9 @@ const PriceListRow: React.FC<PriceListRowProps> = ({
           <p
             className="packaging-main"
             dangerouslySetInnerHTML={{
-              __html: product.Colli.includes("@")
+              __html: typeof product.Colli === 'string' && product.Colli.includes("@")
                 ? product.Colli.replace("@", "@<br/>")
-                : product.Colli,
+                : product.Colli || "",
             }}
           ></p>
         </div>
