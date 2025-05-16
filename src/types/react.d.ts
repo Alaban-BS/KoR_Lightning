@@ -18,6 +18,10 @@ declare module 'react' {
   export const useDeferredValue: typeof import('@types/react').useDeferredValue;
   export const useSyncExternalStore: typeof import('@types/react').useSyncExternalStore;
   export const useInsertionEffect: typeof import('@types/react').useInsertionEffect;
+  
+  // Add event types
+  export type FormEvent<T = Element> = import('@types/react').FormEvent<T>;
+  export type SyntheticEvent<T = Element> = import('@types/react').SyntheticEvent<T>;
 }
 
 declare module 'react-i18next' {
