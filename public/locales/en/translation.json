@@ -6,12 +6,36 @@
     "welcome": "Welcome to Order Management System",
     "loading": "Loading...",
     "error": "An error occurred",
-    "success": "Success"
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "actions": "Actions"
   },
   "auth": {
     "login": "Login",
     "logout": "Logout",
-    "signup": "Sign Up"
+    "signup": "Sign Up",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "forgotPassword": "Forgot Password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "products": "Products",
+    "customers": "Customers",
+    "settings": "Settings",
+    "profile": "Profile"
   },
   "orders": {
     "title": "Orders",
