@@ -84,6 +84,10 @@ const nextConfig = {
             key: 'X-Content-Type-Options',
             value: 'nosniff',
           },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
         ],
       },
     ];
@@ -99,8 +103,17 @@ const nextConfig = {
     locales: ['en'],
     defaultLocale: 'en',
   },
-  // Remove output configuration as it's causing issues
-  // output: 'standalone',
+  // Add CodeSandbox specific configuration
+  async rewrites() {
+    return [
+      {
+        source: '/:path*',
+        destination: '/:path*',
+      },
+    ];
+  },
+  // Configure for CodeSandbox
+  output: 'standalone',
   // Remove trailing slashes as it's causing routing issues
   // trailingSlash: true,
 };
