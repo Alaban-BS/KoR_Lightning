@@ -153,7 +153,7 @@ const PriceListRow = ({
       {/* Origin / Flag */}
       <div className="cell header-herkomst">
         {product.Flags?.map((flag: FlagItem) => {
-          const flagCode = flagMapping[flag.Country] || 'unknown';
+          const flagCode = flagMapping[flag.Country]?.toLowerCase() || 'unknown';
           return (
             <div key={flag.Country} className="flag-item" title={flag.Country}>
               <Image
@@ -162,6 +162,7 @@ const PriceListRow = ({
                 width={20}
                 height={15}
                 className="flag-image"
+                unoptimized
               />
             </div>
           );
@@ -169,11 +170,12 @@ const PriceListRow = ({
         {!product.Flags?.length && origin && (
           <div className="flag-item" title={origin}>
             <Image
-              src={`https://flagcdn.com/w20/${iso}.png`}
+              src={`https://flagcdn.com/w20/${iso?.toLowerCase()}.png`}
               alt={`${origin} flag`}
               width={20}
               height={15}
               className="flag-image"
+              unoptimized
             />
           </div>
         )}

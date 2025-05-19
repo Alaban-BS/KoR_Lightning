@@ -3,7 +3,13 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['localhost', 'vercel.app', 'flagcdn.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'flagcdn.com',
+        pathname: '/w20/**',
+      }
+    ],
     unoptimized: process.env.NODE_ENV === 'development',
     formats: ['image/avif', 'image/webp'],
   },
@@ -92,10 +98,6 @@ const nextConfig = {
   i18n: {
     locales: ['en'],
     defaultLocale: 'en',
-  },
-  // Configure ports
-  env: {
-    PORT: process.env.PORT || '3000',
   },
   // Remove output configuration as it's causing issues
   // output: 'standalone',

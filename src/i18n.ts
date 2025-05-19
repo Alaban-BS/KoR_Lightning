@@ -1,5 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import Backend from "i18next-http-backend";
 
 // Locales
 import en from "./locales/en.json";
@@ -16,19 +17,21 @@ declare module "i18next" {
   }
 }
 
-i18n.use(initReactI18next).init({
-  resources: {
-    en: { translation: en },
-    de: { translation: de },
-    es: { translation: es },
-    nl: { translation: nl },
-  },
-  lng: "en",
-  fallbackLng: "en",
-  returnNull: false, // ensures fallback to defaultValue instead of null
-  interpolation: {
-    escapeValue: false,
-  },
-});
+i18n
+  .use(Backend)
+  .use(initReactI18next)
+  .init({
+    backend: {
+      loadPath: '/locales/{{lng}}/{{ns}}.json',
+    },
+    fallbackLng: "en",
+    debug: process.env.NODE_ENV === 'development',
+    interpolation: {
+      escapeValue: false,
+    },
+    react: {
+      useSuspense: false,
+    },
+  });
 
 export default i18n;

@@ -19,6 +19,18 @@
     "list": "Order List",
     "details": "Order Details"
   },
+  "login": {
+    "title": "Login",
+    "username": "Username",
+    "password": "Password",
+    "submit": "Login"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "productCatalog": "Product Catalog",
+    "currentOrder": "Current Order",
+    "submitOrder": "Submit Order"
+  },
   "priceList": {
     "title": "Price List",
     "searchPlaceholder": "Search product...",
