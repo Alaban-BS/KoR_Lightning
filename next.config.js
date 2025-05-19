@@ -97,10 +97,10 @@ const nextConfig = {
   env: {
     PORT: process.env.PORT || '3000',
   },
-  // Add output configuration
-  output: 'standalone',
-  // Add trailing slashes
-  trailingSlash: true,
+  // Remove output configuration as it's causing issues
+  // output: 'standalone',
+  // Remove trailing slashes as it's causing routing issues
+  // trailingSlash: true,
 };
 
 module.exports = nextConfig; 

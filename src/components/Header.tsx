@@ -12,18 +12,19 @@ import {
 } from '@mui/material';
 import ThemeSwitch from './ThemeSwitch';
 import LogoutIcon from '@mui/icons-material/Logout';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
+import type { MouseEvent } from 'react';
 
 export const Header = () => {
   const theme = useMuiTheme();
   const router = useRouter();
   const { t } = useTranslation();
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const handleMenu = (event: MouseEvent) => {
-    setAnchorEl(event.currentTarget as HTMLElement);
+  const handleMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
@@ -74,7 +75,7 @@ export const Header = () => {
                 },
               }}
             >
-              <AccountCircleIcon />
+              <AccountCircle />
             </IconButton>
           </Tooltip>
           <Menu

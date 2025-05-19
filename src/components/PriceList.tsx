@@ -5,6 +5,7 @@ import { Product, OrderLine } from "../types";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import PriceListRow from "./PriceListRow";
+import type { CSSProperties } from 'react';
 
 interface StockItem {
   SKU: string;
@@ -41,19 +42,17 @@ const PriceList = ({
       product.SKU.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const renderRow = ({ index, style }: ListChildComponentProps) => {
+  const Row = ({ index, style }: ListChildComponentProps) => {
     const product = filteredData[index];
-    if (!product) return <></>;
     return (
       <PriceListRow
-        key={product.SKU}
         product={product}
         orderLines={orderLines}
         setOrderLines={setOrderLines}
         flagMapping={flagMapping}
         palletCheckMap={palletCheckMap}
         setPalletCheckMap={setPalletCheckMap}
-        style={style}
+        style={style as CSSProperties}
         stockData={stockData}
       />
     );
@@ -119,7 +118,7 @@ const PriceList = ({
         itemSize={90}
         width="100%"
       >
-        {renderRow}
+        {Row}
       </List>
     </div>
   );

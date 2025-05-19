@@ -4,6 +4,7 @@ import { Product, OrderLine, FlagItem } from "../types";
 import { roundQtyToPallet } from "../components/priceListUtils";
 import Image from 'next/image';
 import type { TFunction } from "i18next";
+import type { CSSProperties } from 'react';
 
 interface StockItem {
   SKU: string;
@@ -18,7 +19,7 @@ type PriceListRowProps = {
   flagMapping: Record<string, string>;
   palletCheckMap: Record<string, boolean>;
   setPalletCheckMap: (value: Record<string, boolean> | ((prevState: Record<string, boolean>) => Record<string, boolean>)) => void;
-  style: { [key: string]: string | number };
+  style: CSSProperties;
   stockData: StockItem[];
 };
 
