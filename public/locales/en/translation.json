@@ -20,10 +20,13 @@
     "details": "Order Details"
   },
   "login": {
-    "title": "Login",
+    "title": "Welcome Back",
     "username": "Username",
-    "password": "Password",
-    "submit": "Login"
+    "usernamePlaceholder": "Enter your username",
+    "submit": "Login",
+    "error": {
+      "required": "Please enter your username"
+    }
   },
   "dashboard": {
     "title": "Dashboard",
