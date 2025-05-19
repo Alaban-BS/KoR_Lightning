@@ -10,7 +10,7 @@ const nextConfig = {
         pathname: '/w20/**',
       }
     ],
-    unoptimized: process.env.NODE_ENV === 'development',
+    unoptimized: true, // Always unoptimize images in development
     formats: ['image/avif', 'image/webp'],
   },
   webpack: (config, { dev, isServer }) => {
@@ -65,33 +65,25 @@ const nextConfig = {
         source: '/:path*',
         headers: [
           {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on',
-          },
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload',
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'SAMEORIGIN',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
             key: 'Access-Control-Allow-Origin',
             value: '*',
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
           },
         ],
       },
     ];
   },
+  // Configure for CodeSandbox
+  output: 'standalone',
+  // Disable trailing slashes
+  trailingSlash: false,
   // Add experimental features
   experimental: {
     scrollRestoration: true,
@@ -103,19 +95,17 @@ const nextConfig = {
     locales: ['en'],
     defaultLocale: 'en',
   },
-  // Add CodeSandbox specific configuration
-  async rewrites() {
-    return [
-      {
-        source: '/:path*',
-        destination: '/:path*',
-      },
-    ];
-  },
   // Configure for CodeSandbox
-  output: 'standalone',
-  // Remove trailing slashes as it's causing routing issues
-  // trailingSlash: true,
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: '/:path*',
+          destination: '/:path*',
+        },
+      ],
+    };
+  },
 };
 
 module.exports = nextConfig; 
